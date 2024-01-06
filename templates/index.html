@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+    <title>Your App Name</title>
+</head>
+<body>
+    <div class="container">
+        <h1 style="font-size:40px;">Hey, I am CheckAi &#128075;</h1>
+        <h1 style="margin-top: -2%;">and I will <span style="color: rgb(104, 164, 195);">Validate & Rate Your Business Idea</span></h1>
+        <form action="/submit" method="post">
+        <div class="row">
+            <div class="column1">
+                <h2 class="prosol-title">Problem</h2>
+                <textarea name="problem" id="problemTextarea" rows="4" cols="50" placeholder="Describe the problem here..."></textarea>
+            </div>
+            <div class="column1">
+                <h2 class="prosol-title">Solution</h2>
+                <textarea name="solution" id="solutionTextarea" rows="4" cols="50" placeholder="Describe the solution here..."></textarea>
+            </div>
+        </div>
+        
+        <h2 class="metrics-title">Metrics</h2>
+
+        <div class="row">
+            <div class="column" id="metricsContainer">
+                <h3>Title 1</h3>
+                <div class="metric-container">
+                    <div class="text-element">
+                        <h4>Metric</h4>
+                        <input name="metric1" type="text" placeholder="Enter metric..." value="Adherence to Circular Economy Principles">
+                    </div>
+                    <div class="text-element">
+                        <h4>Weight</h4>
+                        <input name="weight1" type="number" placeholder="Enter weight..." value="1" min="1" max="20">
+                    </div>
+                    <div class="text-element">
+                        <h4>Description</h4>
+                        <textarea name="description1" placeholder="Enter description...">The extent to which the idea aligns with circular economy principles, promoting sustainability and resource efficiency.</textarea>
+                    </div>
+                </div>
+                    <span class="add-metric" onclick="addMetric('metricsContainer')">+</span>
+            </div>
+            <div class="column" id="metricsContainer2">
+                <h3>Title 2</h3>
+                <div class="metric-container">
+                    <div class="text-element">
+                        <h4>Metric</h4>
+                        <input name="metric2" type="text" placeholder="Enter metric..." value="Maturity Stage">
+                    </div>
+                    <div class="text-element">
+                        <h4>Weight</h4>
+                        <input name="weight2" type="number" placeholder="Enter weight..." value="0" min="0" max="20">
+                    </div>
+                    <div class="text-element">
+                        <h4>Description</h4>
+                        <textarea name="description2" placeholder="Enter description...">The current development stage of the idea, indicating how well-established and refined the concept or product is.</textarea>
+                    </div>
+                </div>
+                <div class="add-metric-container">
+                    <span class="add-metric" onclick="addMetric('metricsContainer2')">+</span>
+                </div>
+            </div>
+            <div class="column" id="metricsContainer3">
+                <h3>Title 3</h3>
+                <div class="metric-container">
+                    <div class="text-element">
+                        <h4>Metric</h4>
+                        <input name="metric3" type="text" placeholder="Enter metric..." value="Market Potential">
+                    </div>
+                    <div class="text-element">
+                        <h4>Weight</h4>
+                        <input name="weight3" type="number" placeholder="Enter weight..." value="0" min="0" max="20">
+                    </div>
+                    <div class="text-element">
+                        <h4>Description</h4>
+                        <textarea name="description3" placeholder="Enter description...">An assessment of the idea's potential for success and acceptance in the market, considering demand, competition, and growth opportunities.</textarea>
+                    </div>
+                </div>
+                <div class="add-metric-container">
+                    <span class="add-metric" onclick="addMetric('metricsContainer3')">+</span>
+                </div>
+            </div>
+            <div class="column" id="metricsContainer4">
+                <h3>Title 4</h3>
+                <div class="metric-container">
+                    <div class="text-element">
+                        <h4>Metric</h4>
+                        <input name="metric4" type="text" placeholder="Enter metric..." value="Feasibility">
+                    </div>
+                    <div class="text-element">
+                        <h4>Weight</h4>
+                        <input name="weight4" type="number" placeholder="Enter weight..." value="0" min="0" max="20">
+                    </div>
+                    <div class="text-element">
+                        <h4>Description</h4>
+                        <textarea name="description4" placeholder="Enter description..."> The practicality and viability of implementing the idea, considering factors such as technical, financial, and logistical aspects.</textarea>
+                    </div>
+                </div>
+                <div class="add-metric-container">
+                    <span class="add-metric" onclick="addMetric('metricsContainer4')">+</span>
+                </div>
+            </div>
+            <div class="column" id="metricsContainer4">
+                <h3>Title 5</h3>
+                <div class="metric-container">
+                    <div class="text-element">
+                        <h4>Metric</h4>
+                        <input name="metric5" type="text" placeholder="Enter metric..." value="Scalability">
+                    </div>
+                    <div class="text-element">
+                        <h4>Weight</h4>
+                        <input name="weight5" type="number" placeholder="Enter weight..." value="0" min="0" max="20">
+                    </div>
+                    <div class="text-element">
+                        <h4>Description</h4>
+                        <textarea name="description5" placeholder="Enter description...">The ability of the idea to grow and adapt to changing demands or conditions without compromising its effectiveness or efficiency.</textarea>
+                    </div>
+                </div>
+                <div class="add-metric-container">
+                    <span class="add-metric" onclick="addMetric('metricsContainer4')">+</span>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="submit-button">Check My Idea</button>
+    </form>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+}
+
+main {
+    padding: 20px;
+}
+
+.dashboard-section {
+    margin-bottom: 30px;
+}
+
+.widget {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.widget h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+/* Existing CSS styles... */
+
+.dashboard-section {
+    margin-bottom: 30px;
+}
+
+.top-row, .bottom-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.widget {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 48%; /* Adjust the width as needed */
+    box-sizing: border-box;
+}
+
+.widget h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+/* Existing CSS styles... */
+
+.dashboard-section {
+    margin-bottom: 30px;
+}
+
+.overview-widget {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    margin: 0 auto; /* Center the widget */
+    width: 80%; /* Adjust the width as needed */
+    box-sizing: border-box;
+}
+
+.overview-widget h3 {
+    margin-top: 0;
+    color: #333;
+}

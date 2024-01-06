@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+.container {
+    max-width: 90%;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center align text within the container */
+}
+
+h1, h2, h3 {
+    color: #333;
+    text-align: center; /* Center align all heading elements */
+}
+
+h4 {
+    color: #333;
+    text-align: left; /* Center align all heading elements */
+    margin-top: 0%;
+}
+.row {
+    margin-top: -10px;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line on smaller screens */
+    justify-content: space-between; /* Distribute space between items */
+}
+
+.column1 {
+    flex-basis: 48%; /* Adjust the width of columns */
+    margin-bottom: 0%; /* Add margin between columns */
+    margin-top: 3%;
+}
+
+.prosol-title {
+    margin-bottom: 7%; /* Add margin between columns */
+}
+
+.column {
+    margin-top: -10px;
+    margin-bottom: 10px; /* Add margin between columns */
+}
+
+.metrics-title {
+    text-align: center; /* Center align the "Metrics" title */
+    margin-top: 0px; /* Add some space between "Solution" and "Metrics" */
+    color: #333;
+}
+
+
+
+/* Add some styling to the submit button */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.3s ease-in-out;
+    &:hover {
+        background-color: rgb(33, 153, 238); /* Change background to red on hover */
+      }
+}
+
+.metric-container {
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f8ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+input, textarea {
+    width: calc(100% - 10px);
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: -5%;
+    margin-bottom: 5%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    transition: border-color 0.3s ease-in-out; /* Add a smooth transition effect for the border color */
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #065809; /* Change the border color on focus */
+    border-width: 2px;
+}
+
+.add-metric {
+    font-size: 24px;
+    cursor: pointer;
+    background-color: #a6dfa8;
+    color: white;
+    padding: 1px 5px;
+    border-radius: 50%;
+    margin-left: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.add-metric:hover {
+    background-color: #45a049;
+}

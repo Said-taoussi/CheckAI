@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <title>Your Dashboard</title>
+</head>
+<body>
+
+    <header>
+        <h1>Your Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#section1">Metrics score</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="overview" class="dashboard-section">
+            <div class="widget overview-widget">
+                <h3>Overview</h3>
+                <p>The score of this idea is: {{ 12 }}</p>
+                <p>Here is a brief review: {{ data.ovl_eval }}</p>
+            </div>
+        </section>
+        <section id="section1" class="dashboard-section">
+            <h2>Metrics score</h2>
+            <div class="top-row">
+                <div class="widget">
+                    <h3>Widget 1</h3>
+                    <p>This is a sample widget content.</p>
+                </div>
+                <div class="widget">
+                    <h3>Widget 2</h3>
+                    <p>Another sample widget content.</p>
+                </div>
+            </div>
+            <div class="bottom-row">
+                <div class="widget">
+                    <h3>Widget 3</h3>
+                    <p>Yet another sample widget content.</p>
+                </div>
+                <div class="widget">
+                    <h3>Widget 4</h3>
+                    <p>One more sample widget content.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
