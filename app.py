@@ -25,10 +25,7 @@ def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
 def home():
     return render_template('index.html')
 
-
-@app.route('/submit', methods=['POST'])
-def submit():
-    form_data = request.form.to_dict()
+def prepare_metrics(form_data):
     metrics = []
     descriptions = []
     weights = []
@@ -39,7 +36,9 @@ def submit():
             descriptions.append(value)
         elif 'weight' in key:
             weights.append(value)
-
+    
+    return metrics, descriptions, weights
+def check_idea(metrics, descriptions, problem, solution):
     list_metrics = list(zip(metrics, descriptions))
     system_prompt = f"""
     You are an idea validator that advises human evaluators by developing clear rationale and ratings for essential metrics. The metrics are provided in the following list (Each metric comes with a small description):
@@ -63,19 +62,30 @@ def submit():
     -------------------------------------
     If no idea was provided then just say “Please provide your idea”.
     """
-    problem = form_data.get('problem', '')
-    solution = form_data.get('solution', '')
 
     user_query = f"""
     <problem> {problem} </problem>
     <solution> {solution} </solution>
     """
     data = get_completion(user_query,system_prompt)
-    data = eval(data)
-    print(data)
-    score = calculate_score(data, weights)
-    data["score_total"] = score
-    return render_template('dashboard.html', data=data)
+    try :
+        data = eval(data)
+    except :
+        data = eval(data[9:-3])
+    return data
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    form_data = request.form.to_dict()
+    problem = form_data.get('problem', '')
+    solution = form_data.get('solution', '')
+    metrics, descriptions, weights = prepare_metrics(form_data)
+
+    # data = check_idea(metrics, descriptions, problem, solution)
+    # print(data)
+    # score = calculate_score(data, weights)
+    # data["score_total"] = score
+    return render_template('dashboard.html', data={"ovl_eval": "sdf","score_total":21, "eval_breakdown":[], "flags":[]})#data)
 
 def calculate_score(data, weights):
     metric_data = data.get('eval_breakdown', [])
@@ -84,15 +94,20 @@ def calculate_score(data, weights):
         score_list.append(metric["score"])
     weights_np = np.array(weights, dtype=np.float64)/20
     score_np = np.array(score_list, dtype=np.float64)
-    score = np.sum(weights_np * score_np)
+    try :
+        score = np.sum(weights_np * score_np)
+    except :
+        score = 0
     return round(score, 2)
 
 @app.route('/table', methods=['POST'])
 def table():
+    form_data = request.form.to_dict()
+    metrics, descriptions, weights = prepare_metrics(form_data)
     # Check if the 'csvFile' file is present in the request
     if 'csvFile' not in request.files:
         return "No file part"
-
+    
     file = request.files['csvFile']
 
     # Check if the file is empty
@@ -107,14 +122,39 @@ def table():
         # Use TextIOWrapper to handle the decoding of the file
         csv_file = TextIOWrapper(file, encoding='latin-1')
 
-        df = pd.read_csv(csv_file)[:10]
-        # Now 'df' is a Pandas DataFrame containing the CSV data
-        print(df.columns)
-        
+        df = pd.read_csv(csv_file)[:2]
+        flagss = []
+        scores = []
+        datas = []
+        for index, row in df.iterrows():
+            problem = row[1]
+            solution = row[2]
+            data = check_idea(metrics, descriptions, problem, solution)
+            score = calculate_score(data, weights)
+            flags = data["flags"][0] if data["flags"] else "No flags"
+            scores.append(score)
+            flagss.append(flags)
+            datas.append(data)
+        df["flags"] = flagss
+        df["score"] = scores
+        df["data"] = datas
+        df = df.sort_values(by='score', ascending=False)
         # You can now process the data as needed and pass it to the template
         return render_template('table.html', df=df)
 
     return "Invalid file format"
+
+@app.route('/get_details/<identifier>')
+def get_details(identifier):
+    # Perform any necessary logic based on the identifier
+    # For now, let's return a simple JSON response
+    identifiers = identifier.split('$')
+    print(identifiers)
+    score = identifiers[1]
+    print(identifiers[0])
+    data = eval(identifiers[0])
+    data["score_total"] = score
+    return render_template('dashboard.html', data=data)
 
 if __name__ == '__main__':
     app.run(debug=True)

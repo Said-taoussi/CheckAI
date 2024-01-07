@@ -88,3 +88,16 @@ textElements.forEach(function (textElement) {
     }
 });
 
+function getDetails(identifier) {
+    $.ajax({
+        url: '/get_details/' + identifier,
+        type: 'GET',
+        success: function (response) {
+            // Handle the response, e.g., display details in a modal
+            console.log(response);
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
+    });
+}

@@ -32,10 +32,10 @@ $(document).ready(function(){
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th style="text-align:center;">Id <i class="fa fa-sort"></i></th>
+                        <th style="text-align:center;">Id </th>
                         <th style="text-align:center;">Problem</th>
-                        <th style="text-align:center;">Solution <i class="fa fa-sort"></i></th>
-                        <th style="text-align:center;">Flag <i class="fa fa-sort"></i></th>
+                        <th style="text-align:center;">Solution </th>
+                        <th style="text-align:center;">Flag </i></th>
                         <th style="text-align:center;">Score</th>
                         <th style="text-align:center;">Actions</th>
                     </tr>
@@ -47,11 +47,10 @@ $(document).ready(function(){
                     <td class="limitedText" style="text-align:center;">{{row[0]}}</td>
                     <td class="limitedText" style="text-align:center;">{{row[1]}}</td>
                     <td class="limitedText" style="text-align:center;">{{row[2]}}</td>
-                    <td class="limitedText" style="text-align:center;">item</td>
-                    <td class="limitedText" style="text-align:center;">item</td>
+                    <td class="limitedText" style="text-align:center;">{{row[3]}}</td>
+                    <td class="limitedText" style="text-align:center;">{{row[4]}}</td>
                     <td class="limitedText" style="text-align:center;">
-                        <a href="#" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                        <a href="#" class="delete" title="Delete" data-toggle="tooltip" ><i class="material-icons">&#xE872;</i></a>
+                        <a href="{{ url_for('get_details', identifier='{}${}'.format(row[5], row[4])) }}" class="edit" title="Details" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                     </td>
                 </tr>
                     {% endfor %}

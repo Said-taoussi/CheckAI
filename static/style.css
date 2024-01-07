@@ -111,3 +111,16 @@ input:focus, textarea:focus {
 .add-metric:hover {
     background-color: #45a049;
 }
+
+.card {
+    border: 1px solid #ddd; /* Add a border */
+    border-radius: 8px; /* Optional: Rounded corners for a softer look */
+    padding: 20px; /* Add padding inside the card */
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
+    background-color: #fff; /* Set a background color */
+    margin: 20px 0; /* Add some margin for spacing */
+}
+
+.card p {
+    margin: 0; /* Remove default margin for the paragraph inside the card */
+}
