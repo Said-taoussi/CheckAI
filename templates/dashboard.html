@@ -21,35 +21,26 @@
 
     <main>
         <section id="overview" class="dashboard-section">
-            <div class="widget overview-widget">
+            <div class="overview-widget">
                 <h3>Overview</h3>
-                <p>The score of this idea is: {{ 12 }}</p>
-                <p>Here is a brief review: {{ data.ovl_eval }}</p>
+                <p >The score of this idea is: <strong style="font-size: 1.5em; color: #3498db;">{{ data.score_total }}</strong></p>
+                <p style="margin-top: 10px;">Here is a brief review:</p>
+                <p>{{ data.ovl_eval }}</p>
             </div>
         </section>
         <section id="section1" class="dashboard-section">
             <h2>Metrics score</h2>
-            <div class="top-row">
+            <div class="metrics-container">
+                {% for metric_data in data.eval_breakdown %}
                 <div class="widget">
-                    <h3>Widget 1</h3>
-                    <p>This is a sample widget content.</p>
+                    <h3>{{ metric_data['metric'] }}</h3>
+                    <strong>Score:</strong> {{ metric_data['score'] }}<br>
+                    <strong>Explanation:</strong> {{ metric_data['explanation'] }}<br><br>
                 </div>
-                <div class="widget">
-                    <h3>Widget 2</h3>
-                    <p>Another sample widget content.</p>
-                </div>
-            </div>
-            <div class="bottom-row">
-                <div class="widget">
-                    <h3>Widget 3</h3>
-                    <p>Yet another sample widget content.</p>
-                </div>
-                <div class="widget">
-                    <h3>Widget 4</h3>
-                    <p>One more sample widget content.</p>
-                </div>
+                {% endfor %}
             </div>
         </section>
+        
     </main>
 
 </body>

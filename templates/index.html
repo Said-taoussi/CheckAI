@@ -11,6 +11,25 @@
     <div class="container">
         <h1 style="font-size:40px;">Hey, I am CheckAi &#128075;</h1>
         <h1 style="margin-top: -2%;">and I will <span style="color: rgb(104, 164, 195);">Validate & Rate Your Business Idea</span></h1>
+        <div class="initial-content">
+            <button onclick="showOneIdeaForm()">Validate One Idea</button>
+            <button onclick="showMultipleIdeasForm()">Validate Multiple Ideas</button>
+        </div>
+        <div class="multiple-ideas-form" style="display: none;">
+            <form action="/table" method="post" enctype="multipart/form-data">
+            <h2>Validate Multiple Ideas</h2>
+            <div class="file-upload-container">
+                <p>Upload a CSV file:</p>
+                <label class="custom-file-upload">
+                    <input type="file" name="csvFile" class="file-input">
+                </label>
+            </div>
+            <button class="btn" type="submit">Validate Ideas</button>
+            <button type="button" class="btn" onclick="goBack()">Go Back</button>
+        </form>
+        </div>
+        
+        <div class="idea-form" style="display: none;">
         <form action="/submit" method="post">
         <div class="row">
             <div class="column1">
@@ -27,7 +46,6 @@
 
         <div class="row">
             <div class="column" id="metricsContainer">
-                <h3>Title 1</h3>
                 <div class="metric-container">
                     <div class="text-element">
                         <h4>Metric</h4>
@@ -35,7 +53,7 @@
                     </div>
                     <div class="text-element">
                         <h4>Weight</h4>
-                        <input name="weight1" type="number" placeholder="Enter weight..." value="1" min="1" max="20">
+                        <input name="weight1" type="number" placeholder="Enter weight..." value="4" min="1" max="20">
                     </div>
                     <div class="text-element">
                         <h4>Description</h4>
@@ -45,7 +63,6 @@
                     <span class="add-metric" onclick="addMetric('metricsContainer')">+</span>
             </div>
             <div class="column" id="metricsContainer2">
-                <h3>Title 2</h3>
                 <div class="metric-container">
                     <div class="text-element">
                         <h4>Metric</h4>
@@ -53,7 +70,7 @@
                     </div>
                     <div class="text-element">
                         <h4>Weight</h4>
-                        <input name="weight2" type="number" placeholder="Enter weight..." value="0" min="0" max="20">
+                        <input name="weight2" type="number" placeholder="Enter weight..." value="4" min="0" max="20">
                     </div>
                     <div class="text-element">
                         <h4>Description</h4>
@@ -65,7 +82,6 @@
                 </div>
             </div>
             <div class="column" id="metricsContainer3">
-                <h3>Title 3</h3>
                 <div class="metric-container">
                     <div class="text-element">
                         <h4>Metric</h4>
@@ -73,7 +89,7 @@
                     </div>
                     <div class="text-element">
                         <h4>Weight</h4>
-                        <input name="weight3" type="number" placeholder="Enter weight..." value="0" min="0" max="20">
+                        <input name="weight3" type="number" placeholder="Enter weight..." value="4" min="0" max="20">
                     </div>
                     <div class="text-element">
                         <h4>Description</h4>
@@ -85,7 +101,6 @@
                 </div>
             </div>
             <div class="column" id="metricsContainer4">
-                <h3>Title 4</h3>
                 <div class="metric-container">
                     <div class="text-element">
                         <h4>Metric</h4>
@@ -93,7 +108,7 @@
                     </div>
                     <div class="text-element">
                         <h4>Weight</h4>
-                        <input name="weight4" type="number" placeholder="Enter weight..." value="0" min="0" max="20">
+                        <input name="weight4" type="number" placeholder="Enter weight..." value="4" min="0" max="20">
                     </div>
                     <div class="text-element">
                         <h4>Description</h4>
@@ -105,7 +120,6 @@
                 </div>
             </div>
             <div class="column" id="metricsContainer4">
-                <h3>Title 5</h3>
                 <div class="metric-container">
                     <div class="text-element">
                         <h4>Metric</h4>
@@ -113,7 +127,7 @@
                     </div>
                     <div class="text-element">
                         <h4>Weight</h4>
-                        <input name="weight5" type="number" placeholder="Enter weight..." value="0" min="0" max="20">
+                        <input name="weight5" type="number" placeholder="Enter weight..." value="4" min="0" max="20">
                     </div>
                     <div class="text-element">
                         <h4>Description</h4>
@@ -126,7 +140,9 @@
             </div>
         </div>
         <button type="submit" class="submit-button">Check My Idea</button>
+        <button type="button" onclick="goBack()">Go Back</button>
     </form>
+</div>
     </div>
     
 </body>

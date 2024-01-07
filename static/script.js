@@ -41,3 +41,50 @@ function addMetric(containerId, title) {
     // Increment the counter for the next metric
     metricCounter++;
 }
+var initialContent = document.querySelector('.initial-content');
+var oneIdeaForm = document.querySelector('.idea-form');
+var multipleIdeasForm = document.querySelector('.multiple-ideas-form');
+
+function showOneIdeaForm() {
+    hideInitialContent();
+    showForm(oneIdeaForm);
+}
+
+function showMultipleIdeasForm() {
+    hideInitialContent();
+    showForm(multipleIdeasForm);
+}
+
+function hideInitialContent() {
+    if (initialContent) {
+        initialContent.style.display = 'none';
+    }
+}
+
+function showForm(formElement) {
+    if (formElement) {
+        formElement.style.display = 'block';
+    }
+}
+
+function goBack() {
+    if (initialContent && oneIdeaForm && multipleIdeasForm) {
+        initialContent.style.display = 'block';
+        oneIdeaForm.style.display = 'none';
+        multipleIdeasForm.style.display = 'none';
+    }
+}
+
+
+// Get all elements with the class 'limitedText'
+var textElements = document.querySelectorAll('.limitedText');
+
+// Iterate through each element
+textElements.forEach(function (textElement) {
+    // Check if the text content is longer than 150 characters
+    if (textElement.textContent.length > 150) {
+        // Truncate the text and append '...'
+        textElement.textContent = textElement.textContent.substring(0, 150) + '...';
+    }
+});
+
