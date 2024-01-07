@@ -20,6 +20,11 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+    <header>
+        <a href="{{ url_for('go_back', source='home') }}" class="btn-like">Go Back</a>
+        <h1>Evaluation breakdown</h1>
+    </header>
+
 <div class="container-xl">
     <div class="table-responsive">
         <div class="table-wrapper">
@@ -58,9 +63,6 @@ $(document).ready(function(){
              
                 </tbody>
             </table>
-            <div class="clearfix">
-                <div class="hint-text">Showing <b>show</b> out of <b>countoatl</b> entries</div>
-            </div>
         </div>
     </div>  
 </div>   

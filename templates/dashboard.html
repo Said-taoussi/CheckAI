@@ -10,9 +10,8 @@
 <body>
 
     <header>
-        
-        <button href="#" class="btn">Go back</button>
         <h1>Evaluation breakdown</h1>
+        <a href="{{ url_for('go_back', source=source) }}" class="btn-like">Go Back</a>
         <nav>
             <ul>
                 <li><a href="#overview">Overview</a></li>
@@ -28,6 +27,13 @@
                 <p >The score of this idea is: <strong style="font-size: 1.5em; color: #3498db;">{{ data.score_total }}</strong></p>
                 <p style="margin-top: 10px;">Here is a brief review:</p>
                 <p>{{ data.ovl_eval }}</p>
+                {% if data.flags %}
+                <div class="flags-card">
+                    <h4>Flags</h4>
+                    <p>{{ data.flags[0] }}</p>
+                </div>
+                {% endif %}
+               
             </div>
         </section>
         <section id="section1" class="dashboard-section">
