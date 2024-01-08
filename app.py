@@ -8,8 +8,9 @@ import pandas as pd
 from io import TextIOWrapper
 import io
 from flask_caching import Cache
+import time
 
-key = "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"
+key = "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"
 client = OpenAI(api_key = key)
 
 app = Flask(__name__)
@@ -82,11 +83,11 @@ def submit():
     solution = form_data.get('solution', '')
     metrics, descriptions, weights = prepare_metrics(form_data)
 
-    # data = check_idea(metrics, descriptions, problem, solution)
-    # print(data)
-    # score = calculate_score(data, weights)
-    # data["score_total"] = score
-    return render_template('dashboard.html', data={"ovl_eval": "sdf","score_total":21, "eval_breakdown":[], "flags":[]}, source='submit')
+    data = check_idea(metrics, descriptions, problem, solution)
+    print(data)
+    score = calculate_score(data, weights)
+    data["score_total"] = score
+    return render_template('dashboard.html', data=data, source='submit')
 
 def calculate_score(data, weights):
     metric_data = data.get('eval_breakdown', [])
@@ -138,6 +139,7 @@ def table():
         scores.append(score)
         flagss.append(flags)
         datas.append(data)
+        # time.sleep(25)
     df["flags"] = flagss
     df["score"] = scores
     df["data"] = datas
