@@ -9,8 +9,13 @@ from io import TextIOWrapper
 import io
 from flask_caching import Cache
 import time
+import os
+from dotenv import load_dotenv
 
-key = "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"
+
+load_dotenv()
+
+key = os.environ.get("API_KEY")
 client = OpenAI(api_key = key)
 
 app = Flask(__name__)
@@ -70,11 +75,19 @@ def check_idea(metrics, descriptions, problem, solution):
     <solution> {solution} </solution>
     """
     data = get_completion(user_query,system_prompt)
-    try :
-        data = eval(data)
-    except :
-        data = eval(data[9:-3])
+    data = process_data(data)
     return data
+
+def process_data(data):
+    try:
+        data = eval(data)
+    except:
+        try:
+            data = eval(data[9:-3])
+        except:
+            data = {}
+    return data
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
@@ -84,9 +97,11 @@ def submit():
     metrics, descriptions, weights = prepare_metrics(form_data)
 
     data = check_idea(metrics, descriptions, problem, solution)
-    print(data)
+    #print(data)
     score = calculate_score(data, weights)
     data["score_total"] = score
+    flags = data.get("flags", [])[0] if data.get("flags", []) else "No flags"
+    data["flags"] = flags
     return render_template('dashboard.html', data=data, source='submit')
 
 def calculate_score(data, weights):
@@ -135,11 +150,12 @@ def table():
         solution = row[2]
         data = check_idea(metrics, descriptions, problem, solution)
         score = calculate_score(data, weights)
-        flags = data["flags"][0] if data["flags"] else "No flags"
+        flags = data.get("flags", [])[0] if data.get("flags", []) else "No flags"
         scores.append(score)
         flagss.append(flags)
         datas.append(data)
         # time.sleep(25)
+    
     df["flags"] = flagss
     df["score"] = scores
     df["data"] = datas
@@ -152,10 +168,10 @@ def get_details(identifier):
     # Perform any necessary logic based on the identifier
     # For now, let's return a simple JSON response
     identifiers = identifier.split('$')
-    print(identifiers)
     score = identifiers[1]
-    print(identifiers[0])
     data = eval(identifiers[0])
+    flags = data.get("flags", [])[0] if data.get("flags", []) else "No flags"
+    data["flags"] = flags
     data["score_total"] = score
     return render_template('dashboard.html', data=data, source='table')
 
