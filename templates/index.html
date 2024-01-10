@@ -15,19 +15,13 @@
             <button onclick="showOneIdeaForm()">Validate One Idea</button>
             <button onclick="showMultipleIdeasForm()">Validate Multiple Ideas</button>
         </div>
-        <div class="multiple-ideas-form" style="display: none;">
-            <form action="/table" method="post" enctype="multipart/form-data">
+        <div class="multiple-ideas-form" style="display: none;" >
+            <form action="/table" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
             <h2>Validate Multiple Ideas</h2>
             <p>Upload a CSV file:</p>
             <label class="custom-file-upload">
                 <input type="file" name="csvFile" class="file-input">
             </label>
-            <div class="file-upload-container">
-                <p>Upload a CSV file:</p>
-                <label class="custom-file-upload">
-                    <input type="file" name="csvFile" class="file-input">
-                </label>
-            </div>
             <h2 class="metrics-title">Metrics</h2>
             <div class="card">
                 <p>Feel free to incorporate various metrics along with their corresponding descriptions. You're allotted 20 points, allowing you to allocate them based on the significance each metric holds for you.</p>
@@ -134,7 +128,7 @@
         </div>
         
         <div class="idea-form" style="display: none;">
-        <form action="/submit" method="post">
+        <form action="/submit" method="post" onsubmit="return validateForm()">
         <div class="row">
             <div class="column1">
                 <h2 class="prosol-title">Problem</h2>

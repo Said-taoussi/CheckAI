@@ -101,3 +101,19 @@ function getDetails(identifier) {
         }
     });
 }
+
+function validateForm() {
+    // Get the file input element
+    var fileInput = document.querySelector('input[name="csvFile"]');
+
+    // Check if the file input is empty
+    if (!fileInput.files.length) {
+        // Show a pop-up message
+        alert('Please upload a file.');
+        // Prevent form submission
+        return false;
+    }
+
+    // Allow form submission if the file is selected
+    return true;
+}

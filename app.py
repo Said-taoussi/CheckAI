@@ -32,6 +32,7 @@ def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
 
 @app.route('/')
 def home():
+    cache.clear()
     return render_template('index.html')
 
 def prepare_metrics(form_data):
@@ -120,49 +121,55 @@ def calculate_score(data, weights):
 @app.route('/table', methods=['GET', 'POST'])
 @cache.cached(timeout=600)  # Cache the result for 10 minutes
 def table():
-    form_data = request.form.to_dict()
-    metrics, descriptions, weights = prepare_metrics(form_data)
+    if request.method == 'POST':
+        cache.clear()
+        form_data = request.form.to_dict()
+        metrics, descriptions, weights = prepare_metrics(form_data)
 
-    # Check if the 'csvFile' file is present in the request
-    if 'csvFile' in request.files:
-        file = request.files['csvFile']
+        # Check if the 'csvFile' file is present in the request
+        if 'csvFile' in request.files:
+            file = request.files['csvFile']
 
-        # Seek to the beginning of the file before reading
-        file.seek(0)
+            # Seek to the beginning of the file before reading
+            file.seek(0)
+            file_content = file.read()
 
-        # Store the file content temporarily in the cache
-        cache.set('uploaded_file_content', file.read())
+        # Use TextIOWrapper to handle the decoding of the file content
+        csv_file = TextIOWrapper(io.BytesIO(file_content), encoding='latin-1')
 
-    # Check if the uploaded file content is present in the cache
-    file_content = cache.get('uploaded_file_content')
-    if file_content is None:
-        return redirect(url_for('home'))
-
-    # Use TextIOWrapper to handle the decoding of the file content
-    csv_file = TextIOWrapper(io.BytesIO(file_content), encoding='latin-1')
-
-    df = pd.read_csv(csv_file)[:3]
-    flagss = []
-    scores = []
-    datas = []
-    for index, row in df.iterrows():
-        problem = row[1]
-        solution = row[2]
-        data = check_idea(metrics, descriptions, problem, solution)
-        score = calculate_score(data, weights)
-        flags = data.get("flags", [])[0] if data.get("flags", []) else "No flags"
-        scores.append(score)
-        flagss.append(flags)
-        datas.append(data)
-        # time.sleep(25)
+        df = pd.read_csv(csv_file)[:1]
+        flagss = []
+        scores = []
+        datas = []
+        for index, row in df.iterrows():
+            problem = row[1]
+            solution = row[2]
+            data = check_idea(metrics, descriptions, problem, solution)
+            score = calculate_score(data, weights)
+            flags = data.get("flags", [])[0] if data.get("flags", []) else "No flags"
+            scores.append(score)
+            flagss.append(flags)
+            datas.append(data)
+            # time.sleep(25)
     
-    df["flags"] = flagss
-    df["score"] = scores
-    df["data"] = datas
-    df = df.sort_values(by='score', ascending=False)
-    # You can now process the data as needed and pass it to the template
-    return render_template('table.html', df=df)
+        df["flags"] = flagss
+        df["score"] = scores
+        df["data"] = datas
+        df = df.sort_values(by='score', ascending=False)
 
+        df_json = df.to_json(orient='split')
+        cache.set('df', df_json)
+        # You can now process the data as needed and pass it to the template
+        return render_template('table.html', df=df)
+    else:
+        df_json = cache.get('df')
+        if df_json is not None:
+            df = pd.read_json(df_json, orient='split')
+        else:
+            df = pd.DataFrame()  # Handle the case where the cache is empty
+
+        return render_template('table.html', df=df)
+        
 @app.route('/get_details/<identifier>')
 def get_details(identifier):
     # Perform any necessary logic based on the identifier
@@ -188,4 +195,4 @@ def go_back(source):
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True)
