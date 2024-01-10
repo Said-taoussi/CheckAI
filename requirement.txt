@@ -1,0 +1,9 @@
+Flask
+openai
+astroid
+json5
+numpy
+csv
+pandas
+Flask-Caching
+python-dotenv
