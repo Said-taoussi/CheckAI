@@ -35,7 +35,7 @@ def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
 @app.route('/')
 def home():
     cache.clear()
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app.route('/ValidateOne')
 def validate_one():
@@ -116,6 +116,8 @@ def submit():
     data["score_total"] = score
     flags = data.get("flags", [])[0] if data.get("flags", []) else "No flags"
     data["flags"] = flags
+    data["problem"] = problem
+    data["solution"] = solution
     return render_template('dashboard.html', data=data, source='submit')
 
 def calculate_score(data, weights):
@@ -140,7 +142,7 @@ def process_row(row, metrics, descriptions, weights):
     return score, flags, data
 
 @app.route('/table', methods=['GET', 'POST'])
-@cache.cached(timeout=600)  # Cache the result for 10 minutes
+@cache.cached(timeout=3600)  # Cache the result for 10 minutes
 def table():
     if request.method == 'POST':
         cache.clear()
@@ -158,7 +160,7 @@ def table():
         # Use TextIOWrapper to handle the decoding of the file content
         csv_file = TextIOWrapper(io.BytesIO(file_content), encoding='latin-1')
 
-        df = pd.read_csv(csv_file)[:1]
+        df = pd.read_csv(csv_file)
         flagss = []
         scores = []
         datas = []
@@ -171,7 +173,6 @@ def table():
             score, flags, data = result
             scores.append(score)
             flagss.append(flags)
-            data["index"] = df.iloc[i, 0]
             data["problem"] = df.iloc[i, 1]
             data["solution"] = df.iloc[i, 2]
             datas.append(data)
@@ -219,4 +220,5 @@ def go_back(source):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)# app.run(debug=False, host="0.0.0.0")
+    # app.run(debug=True)# app.run(debug=False, host="0.0.0.0")
+    app.run(debug=False, host="0.0.0.0")

@@ -20,6 +20,7 @@
         <nav>
             <ul>
                 <li><a href="#overview">Overview</a></li>
+                <li><a href="#idea_desc">Idea statement</a></li>
                 <li><a href="#section1">Metrics score</a></li>
             </ul>
         </nav>
@@ -29,9 +30,8 @@
         <section id="overview" class="dashboard-section">
             <div class="widget">
                 <div class="left-column">
-                    <h3>Overview of idea {{ data.index }}</h3>
+                    <h3>Brief Review:</h3>
                     <div class="brief-review">
-                        <h4>Brief Review:</h4>
                         <p>{{ data.ovl_eval }}</p>
                     </div>
                     {% if data.flags %}
@@ -41,8 +41,8 @@
                     {% endif %}
                 </div>
                 <div class="right-column">
+                    <h3>Score:</h3>
                     <div class="score">
-                        <p>The Score:</p>
                         <strong>{{ data.score_total }}</strong>
                     </div>
                 </div>
