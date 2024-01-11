@@ -1,9 +1,49 @@
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f2f2f2;
+  background: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
 }
+
+h1,h2,h3,h4,h5,h6 {
+    font-weight: 200;
+    line-height: inherit;
+  }
+
+  
+  h1,h2,h3,h4,h5,h6 {
+    font-weight: 200;
+    line-height: inherit;
+  }
+
+  h1 {
+    color: #292929;
+  }
+
+  h2 {
+    color: #393939;
+  }
+
+  h3 {
+    color: #505050;
+  }
+
+  h4 {
+    color: #696969;
+  }
+
+  p {
+    color: #757575;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 25px;
+  }
+
+  strong {
+    font-weight: 500;
+  }
 
 .container {
     max-width: 90%;
@@ -15,16 +55,6 @@ body {
     text-align: center; /* Center align text within the container */
 }
 
-h1, h2, h3 {
-    color: #333;
-    text-align: center; /* Center align all heading elements */
-}
-
-h4 {
-    color: #333;
-    text-align: left; /* Center align all heading elements */
-    margin-top: 0%;
-}
 .row {
     margin-top: -10px;
     display: flex;
@@ -75,20 +105,20 @@ button {
     background-color: #f0f8ff;
     padding: 15px;
     border-radius: 8px;
-    margin-top: -10px;
-    margin-bottom: 10px;
 }
 
 input, textarea {
     width: calc(100% - 10px);
     padding: 10px;
     box-sizing: border-box;
-    margin-top: -5%;
-    margin-bottom: 5%;
     border: 1px solid #ccc;
     border-radius: 4px;
     resize: vertical;
     transition: border-color 0.3s ease-in-out; /* Add a smooth transition effect for the border color */
+}
+
+.column input {
+    margin-top: -20px;
 }
 
 input:focus, textarea:focus {
@@ -100,7 +130,7 @@ input:focus, textarea:focus {
 .add-metric {
     font-size: 24px;
     cursor: pointer;
-    background-color: #a6dfa8;
+    background-color: #9dc2db;
     color: white;
     padding: 1px 5px;
     border-radius: 50%;
@@ -124,3 +154,140 @@ input:focus, textarea:focus {
 .card p {
     margin: 0; /* Remove default margin for the paragraph inside the card */
 }
+
+
+
+
+  a {
+    color: #252525;
+    font-weight: normal;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    text-decoration: none !important;
+  }
+
+  a:hover, a:active, a:focus {
+    color: #3498db;
+    outline: none;
+  }
+
+  .section-title {
+    margin-bottom: 60px;
+  }
+
+  .section-title h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    line-height: 0;
+  }
+
+  .section-title .line-bar {
+    color: #d9d9d9;
+    display: block;
+    font-size: 5em;
+    line-height: 0;
+  }
+
+  .section-btn {
+    background: #3498db;
+    border: 0;
+    border-radius: 100px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: inherit;
+    font-weight: normal;
+    padding: 15px 30px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+  }
+
+  .section-btn:hover,
+  .section-btn:focus {
+    background: #3498db;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0575E6, #00F260);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0575E6, #00F260); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-color: transparent;
+    color: #393939;
+  }
+
+  
+  .h2class {
+    margin-bottom: -4%; /* Adjust the spacing as needed */
+    padding: 10px;
+    background-color: #3498db; /* Set a background color */
+    color: #fff; /* Set text color */
+    border-radius: 5px; /* Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+}
+
+.loader-container {
+    display: none; /* Hide the loader container by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+.ip {
+    width: 16em;
+    height: 8em;
+  }
+  
+  .ip__track {
+    stroke: hsl(var(--hue), 90%, 90%);
+    transition: stroke var(--trans-dur);
+  }
+  
+  .ip__worm1,
+  .ip__worm2 {
+    animation: moveWorm 4s linear infinite; /* Adjust the animation duration */
+  }
+  
+  .ip__worm2 {
+    animation-name: moveWormReverse; /* Use a separate animation for reverse movement */
+  }
+  
+  /* Dark theme */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: hsl(var(--hue), 90%, 5%);
+      --fg: hsl(var(--hue), 90%, 95%);
+    }
+    
+    .ip__track {
+      stroke: hsl(var(--hue), 90%, 15%);
+    }
+  }
+  
+  /* Animation */
+  @keyframes moveWorm {
+    0%, 100% {
+      stroke-dashoffset: 0;
+    }
+    25% {
+      animation-timing-function: steps(1);
+      stroke-dashoffset: -358;
+    }
+    50%, 75% {
+      animation-timing-function: linear;
+      stroke-dashoffset: 358;
+    }
+  }
+  
+  @keyframes moveWormReverse {
+    0%, 100% {
+      stroke-dashoffset: 358;
+    }
+    25%, 75% {
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dashoffset: -358;
+    }
+  }
+  

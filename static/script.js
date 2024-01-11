@@ -114,6 +114,103 @@ function validateForm() {
         return false;
     }
 
-    // Allow form submission if the file is selected
+    // Check the file type (for example, allow only CSV files)
+    var allowedTypes = ['csv'];
+    var fileName = fileInput.files[0].name;
+    var fileType = fileName.split('.').pop().toLowerCase();
+    
+    if (!allowedTypes.includes(fileType)) {
+        alert('Please upload a valid CSV file.');
+        return false;
+    }
+
+    // Allow form submission if the file is selected and the type is valid
     return true;
 }
+
+function submitForm() {
+    // Validate the form before submission
+    if (!validateForm()) {
+        return;
+    }
+
+    // Show the loader
+    document.getElementById("loaderContainer").style.display = "flex";
+
+    // Get form data
+    var formData = new FormData(document.getElementById("myForm"));
+
+    // Send a POST request to the Flask backend
+    fetch('/submit', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Hide the loader after the operation is complete
+        document.getElementById("loaderContainer").style.display = "none";
+
+        // Add your logic for handling the backend response here
+        console.log(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Hide the loader in case of an error
+        document.getElementById("loaderContainer").style.display = "none";
+    });
+}
+
+
+function validateForm1() {
+    var problem = document.getElementById("problemTextarea").value.trim();
+    var solution = document.getElementById("solutionTextarea").value.trim();
+
+    if (problem === "" || solution === "") {
+        alert("Please fill in both the problem and solution fields.");
+        return false;
+    }
+
+    // Additional validation logic can be added if needed
+
+    return true;
+}
+
+
+
+  function submitForm1() {
+    // Get form data
+    var problem = document.getElementById("problemTextarea").value.trim();
+    var solution = document.getElementById("solutionTextarea").value.trim();
+  
+    // Perform form validation
+    if (problem === "" || solution === "") {
+      alert("Please fill in both the problem and solution fields.");
+      return;
+    }
+  
+    // Show the loader
+    document.getElementById("loaderContainer").style.display = "flex";
+  
+    // Prepare form data
+    var formData = new FormData(document.getElementById("myForm"));
+  
+    // Send a POST request to the Flask backend
+    fetch('/submit', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Hide the loader after the operation is complete
+      document.getElementById("loaderContainer").style.display = "none";
+  
+      // Add your logic for handling the backend response here
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Hide the loader in case of an error
+      document.getElementById("loaderContainer").style.display = "none";
+    });
+  }
+  

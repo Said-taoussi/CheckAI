@@ -37,6 +37,17 @@ def home():
     cache.clear()
     return render_template('home.html')
 
+@app.route('/ValidateOne')
+def validate_one():
+    # Add logic for the ValidateOne page if needed
+    return render_template('validate_one.html')
+
+@app.route('/ValidateMultiple')
+def validate_multiple():
+    # Add logic for the ValidateMultiple page if needed
+    return render_template('validate_multiple.html')
+
+
 def prepare_metrics(form_data):
     metrics = []
     descriptions = []
