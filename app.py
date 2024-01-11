@@ -161,6 +161,9 @@ def table():
         csv_file = TextIOWrapper(io.BytesIO(file_content), encoding='latin-1')
 
         df = pd.read_csv(csv_file)
+      
+        df = df.dropna()
+      
         flagss = []
         scores = []
         datas = []
