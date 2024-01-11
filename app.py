@@ -28,6 +28,7 @@ def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
     messages = [{"role": "system", "content": system_prompt},{"role": "user", "content": user_query}]
     response = client.chat.completions.create(
         response_format={ "type": "json_object" },
+        temperature=0.2,
         model=model,
         messages=messages,
     )
@@ -219,5 +220,5 @@ def go_back(source):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run(debug=False, host="0.0.0.0")
+    # app.run(debug=True)
+    app.run(debug=False, host="0.0.0.0")
