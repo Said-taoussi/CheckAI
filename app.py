@@ -27,9 +27,11 @@ cache.init_app(app)
 def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
     messages = [{"role": "system", "content": system_prompt},{"role": "user", "content": user_query}]
     response = client.chat.completions.create(
+        response_format={ "type": "json_object" },
         model=model,
         messages=messages,
     )
+
     return response.choices[0].message.content
 
 @app.route('/')
@@ -65,23 +67,21 @@ def check_idea(metrics, descriptions, problem, solution):
     list_metrics = list(zip(metrics, descriptions))
     system_prompt = f"""
     You are an idea validator that advises human evaluators by developing clear rationale and ratings for essential metrics. The metrics are provided in the following list (Each metric comes with a small description):
-    {list_metrics}
-    -------------------------------------
-    You will be given an idea in the form of problem/solution pairs (delimited with XML tags).
-    -------------------------------------
-    Use the following step-by-step instructions to curate your answer:
-    Step 1 – rewrite the solution in a neutral way. Remove any exaggeration words such as “revolutionary”, “cutting edge”. Use this new version of the solution as the basis of your further analysis.
-    Step 2 – Check if the idea is sloppy, off-topic (i.e., not sustainability related), unsuitable, or vague (such as the over-generic content that prioritizes form over substance, offering generalities instead of specific details or undeveloped ideas that lack substance and details). You should help concentrate human evaluators’ time and resources on concepts that are meticulously crafted, well-articulated, and hold tangible relevance. Flag each idea that could be included in this category as “Not interesting”.
-    Step 3 – Evaluate the idea based on the given metrics. Give a score between 0 and 20 for each metric and also an explanation of the given score. Be strict in your rating, don’t give a high point unless the idea really align with the metrics.
-    Step 4 – Check if the idea is particularly exceptional and ambitious. These are ideas that are potentially revolutionary and that offer substantial returns but also carry a greater risk of failure. Emphasizes the novelty aspect of the idea and points to its potential for breakthroughs. Highlight ideas that might seem unconventional to experts in their respective domains–to prevent them from being overlooked by conservative human evaluators. Flag each idea that could be included in this category as “Moonshot”. Be strict in your judgment, only the most exceptional and revolutionary ideas can be flagged as “Moonshot”. Don’t get fooled by selling language or the use of fancy words such as “revolutionary” and “cutting edge”, THIS IS THE WORST MISTAKE YOU COULD MAKE. Compare the original solution to the neutral solution that you have written.
-    -------------------------------------
-    Provide your answer in the form of a python dictionary. The following is a description of the different field of the dictionary that you should provide (don’t deviate from the format or add any fields):
-    Neutral_solution : the new version of the solution that you have rewritten to eliminate over-generic content that prioritizes form over substance and the use of exaggeration and selling language.
-    flags: list of flags (Possible values: “Moonshot”, “Not interesting”), could be empty.
-    ovl_eval : a small text providing a high-level evaluation of the idea, and also provide rational behind the provided flags if any. This field should never be empty.
-    eval_breakdown: a list of python dictionaries, each one represent a metrics and has 3 fields (metric: the metric name, score: the score you gave to the idea on this particular metric, explanation: the reasoning behind the score that you gave, even if the score is 0, you still have to provide an explanation), this field should never be empty.
-    -------------------------------------
-    IMPORTANT : The output should be a python dictionary only. It should be ready to be used in code using the “eval” function, don't add any prefixes or suffixes.
+{list_metrics}
+
+You will be given an idea in the form of problem/solution pairs (delimited with XML tags).
+
+Use the following step-by-step instructions to curate your answer:
+Step 1 – rewrite the solution in a neutral way. Remove any exaggeration words such as “revolutionary”, “cutting edge”. Use this new version of the solution as the basis of your further analysis.
+Step 2 – Check if the idea is sloppy, off-topic (i.e., not sustainability related), unsuitable, or vague (such as the over-generic content that prioritizes form over substance, offering generalities instead of specific details or undeveloped ideas that lack substance and details). Flag each idea that could be included in this category as “Not interesting”.
+Step 3 – Evaluate the idea based on the given metrics. Give a score between 0 and 20 for each metric and also an explanation of the given score. Be strict in your rating, don’t give a high point unless the idea really align with the metrics.
+Step 4 – Check if the idea is particularly exceptional and ambitious. These are ideas that offer substantial returns but also carry a greater risk of failure. Emphasizes the novelty aspect of the idea and points to its potential for breakthroughs. Flag each idea that could be included in this category as “Moonshot”. Be strict in your judgment, only the most exceptional and revolutionary ideas can be flagged as “Moonshot”. Don’t get fooled by selling language or the use of fancy words such as “revolutionary” and “cutting edge”, THIS IS THE WORST MISTAKE YOU COULD MAKE. Compare the original solution to the neutral solution that you have written.
+
+Provide your answer in the form of a json. The following is a description of the different field of the json that you should provide (don’t deviate from the format or add any fields):
+Neutral_solution : the new version of the solution that you have rewritten to eliminate over-generic content that prioritizes form over substance and the use of exaggeration and selling language.
+flags: list of flags (Possible values: “Moonshot”, “Not interesting”), could be empty.
+ovl_eval : a small text providing a high-level evaluation of the idea, and also provide rational behind the provided flags if any. This field should never be empty.
+eval_breakdown: a list of json objects, each one represent a metrics and has 3 fields (metric: the metric name, score: the score you gave to the idea on this particular metric, explanation: the reasoning behind the score that you gave, even if the score is 0, you still have to provide an explanation), this field should never be empty.
     """
 
     user_query = f"""
@@ -145,7 +145,6 @@ def process_row(row, metrics, descriptions, weights):
 @cache.cached(timeout=3600)  # Cache the result for 10 minutes
 def table():
     if request.method == 'POST':
-        cache.clear()
         form_data = request.form.to_dict()
         metrics, descriptions, weights = prepare_metrics(form_data)
 
@@ -220,5 +219,5 @@ def go_back(source):
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)# app.run(debug=False, host="0.0.0.0")
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True)
+    # app.run(debug=False, host="0.0.0.0")
