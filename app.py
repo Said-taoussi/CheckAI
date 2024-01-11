@@ -9,6 +9,8 @@ from io import TextIOWrapper
 import io
 from flask_caching import Cache
 import time
+from itertools import repeat
+import concurrent.futures
 import os
 from dotenv import load_dotenv
 
@@ -33,7 +35,7 @@ def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
 @app.route('/')
 def home():
     cache.clear()
-    return render_template('index.html')
+    return render_template('home.html')
 
 def prepare_metrics(form_data):
     metrics = []
@@ -65,8 +67,8 @@ def check_idea(metrics, descriptions, problem, solution):
     Provide your answer in the form of a python dictionary. The following is a description of the different field of the dictionary that you should provide (don’t deviate from the format or add any fields):
     Neutral_solution : the new version of the solution that you have rewritten to eliminate over-generic content that prioritizes form over substance and the use of exaggeration and selling language.
     flags: list of flags (Possible values: “Moonshot”, “Not interesting”), could be empty.
-    ovl_eval : a small text providing a high-level evaluation of the idea, and also provide rational behind the provided flags if any.
-    eval_breakdown: a list of python dictionaries, each one represent a metrics and has 3 fields (metric: the metric name, score: the score you gave to the idea on this particular metric, explanation: the reasoning behind the score that you gave)
+    ovl_eval : a small text providing a high-level evaluation of the idea, and also provide rational behind the provided flags if any. This field should never be empty.
+    eval_breakdown: a list of python dictionaries, each one represent a metrics and has 3 fields (metric: the metric name, score: the score you gave to the idea on this particular metric, explanation: the reasoning behind the score that you gave, even if the score is 0, you still have to provide an explanation), this field should never be empty.
     -------------------------------------
     IMPORTANT : The output should be a python dictionary only. It should be ready to be used in code using the “eval” function, don't add any prefixes or suffixes.
     """
@@ -118,6 +120,14 @@ def calculate_score(data, weights):
         score = 0
     return round(score, 2)
 
+def process_row(row, metrics, descriptions, weights):
+    problem = row[1]
+    solution = row[2]
+    data = check_idea(metrics, descriptions, problem, solution)
+    score = calculate_score(data, weights)
+    flags = data.get("flags", [])[0] if data.get("flags", []) else "No flags"
+    return score, flags, data
+
 @app.route('/table', methods=['GET', 'POST'])
 @cache.cached(timeout=600)  # Cache the result for 10 minutes
 def table():
@@ -141,17 +151,16 @@ def table():
         flagss = []
         scores = []
         datas = []
-        for index, row in df.iterrows():
-            problem = row[1]
-            solution = row[2]
-            data = check_idea(metrics, descriptions, problem, solution)
-            score = calculate_score(data, weights)
-            flags = data.get("flags", [])[0] if data.get("flags", []) else "No flags"
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            # Pass metrics, descriptions, and weights as arguments
+            results = list(executor.map(process_row, df.itertuples(index=False), repeat(metrics), repeat(descriptions), repeat(weights)))
+
+        for result in results:
+            score, flags, data = result
             scores.append(score)
             flagss.append(flags)
             datas.append(data)
-            # time.sleep(25)
-    
         df["flags"] = flagss
         df["score"] = scores
         df["data"] = datas
@@ -195,4 +204,4 @@ def go_back(source):
 
 
 if __name__ == '__main__':
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True)# app.run(debug=False, host="0.0.0.0")
