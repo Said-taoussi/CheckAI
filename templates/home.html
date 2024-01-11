@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-     <title>Hydro - Landing Page Template</title>
+     <title>CheckAI</title>
 
      
 <!-- 
@@ -19,7 +18,7 @@ http://www.templatemo.com/tm-509-hydro
      <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
      <link rel="stylesheet" href="{{ url_for('static', filename='magnific-popup.css') }}">
      <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.min.css') }}">
-     
+
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="{{ url_for('static', filename='templatemo-style.css') }}">
      
@@ -46,7 +45,7 @@ http://www.templatemo.com/tm-509-hydro
                     </button>
 
                     <!-- lOGO TEXT HERE -->
-                    <a href="#" class="navbar-brand">Hydro</a>
+                    <a href="#" class="navbar-brand">CheckAI</a>
                </div>
 
                <!-- MENU LINKS -->
@@ -54,17 +53,10 @@ http://www.templatemo.com/tm-509-hydro
                     <ul class="nav navbar-nav navbar-nav-first">
                          <li><a href="#home" class="smoothScroll">Home</a></li>
                          <li><a href="#about" class="smoothScroll">About</a></li>
-                         <li><a href="#blog" class="smoothScroll">Blog</a></li>
-                         <li><a href="#work" class="smoothScroll">Our Work</a></li>
-                         <li><a href="#contact" class="smoothScroll">Contacts</a></li>
+                         <li><a href="#blog" class="smoothScroll">key features</a></li>
+                         <li><a href="#contactus" class="smoothScroll">Contact</a></li>
                     </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
-                         <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
-                         <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                         <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                         <li class="section-btn"><a href="#" data-toggle="modal" data-target="#modal-form">Sign in / Join</a></li>
-                    </ul>
                </div>
 
           </div>
@@ -79,10 +71,10 @@ http://www.templatemo.com/tm-509-hydro
 
                     <div class="col-md-6 col-sm-12">
                          <div class="home-info">
-                              <h1>We make beautiful websites for all people.</h1>
+                              <h1>Revolutionizes Idea Evaluation: Harnessing AI for Intelligent Innovation.</h1>
                               <div class="initial-content">
-                                   <button class="btn section-btn smoothScroll" onclick="showOneIdeaForm()">Validate One Idea</button>
-                                   <button class="btn section-btn smoothScroll" onclick="showMultipleIdeasForm()">Validate Multiple Ideas</button>
+                                   <a href="/ValidateOne" class="btn section-btn smoothScroll">Validate One Idea</a>
+                                   <a href="/ValidateMultiple" class="btn section-btn smoothScroll">Validate Multiple Ideas</a>
                                </div>
                          </div>
                     </div>
@@ -90,7 +82,7 @@ http://www.templatemo.com/tm-509-hydro
                     <div class="col-md-6 col-sm-12">
                          <div class="home-video">
                               <div class="embed-responsive embed-responsive-16by9">
-                                   <iframe src="https://www.youtube.com/embed/AqcjdkPMPJA" frameborder="0" allowfullscreen></iframe>
+                                   <iframe src="https://www.youtube.com/embed/xQmhaSj6JMQ" frameborder="0" allowfullscreen></iframe>
                               </div>
                          </div>
                     </div>
@@ -164,7 +156,7 @@ http://www.templatemo.com/tm-509-hydro
 
                     <div class="col-md-12 col-sm-12">
                          <div class="section-title">
-                              <h2>Our Blog</h2>
+                              <h2>Our key features</h2>
                               <span class="line-bar">...</span>
                          </div>
                     </div>
@@ -176,10 +168,8 @@ http://www.templatemo.com/tm-509-hydro
                                    <img src="{{ url_for('static', filename='images/blog-image1.jpg') }}" class="img-responsive" alt="">
                               </div>
                               <div class="media-body blog-info">
-                                   <small><i class="fa fa-clock-o"></i> December 22, 2017</small>
-                                   <h3><a href="#">How To Find Out Beautiful Workspace.</a></h3>
-                                   <p>Lorem ipsum dolor sit consectetur adipiscing morbi venenatis.</p>
-                                   <a href="#" class="btn section-btn">Read article</a>
+                                   <h3>Automated Evaluation</h3>
+                                   <p>Automatically score and filter ideas based on user-defined metrics.</p>
                               </div>
                          </div>
                     </div>
@@ -188,13 +178,11 @@ http://www.templatemo.com/tm-509-hydro
                          <!-- BLOG THUMB -->
                          <div class="media blog-thumb">
                               <div class="media-object media-left">
-                                   <a href="#"><img src="images/blog-image2.jpg" class="img-responsive" alt=""></a>
+                                   <img src="{{ url_for('static', filename='images/blog-image2.jpg') }}" class="img-responsive" alt="">
                               </div>
                               <div class="media-body blog-info">
-                                   <small><i class="fa fa-clock-o"></i> December 18, 2017</small>
-                                   <h3><a href="#">woman sportwear.</a></h3>
-                                   <p>Lorem ipsum dolor sit consectetur adipiscing morbi venenatis.</p>
-                                   <a href="#" class="btn section-btn">Read more</a>
+                                   <h3>Lazy Idea Detection</h3>
+                                   <p>Identify and flag suboptimal ideas, saving time for human evaluators.</p>
                               </div>
                          </div>
                     </div>
@@ -203,13 +191,11 @@ http://www.templatemo.com/tm-509-hydro
                          <!-- BLOG THUMB -->
                          <div class="media blog-thumb">
                               <div class="media-object media-left">
-                                   <a href="#"><img src="images/blog-image3.jpg" class="img-responsive" alt=""></a>
+                                   <img src="{{ url_for('static', filename='images/blog-image3.jpg') }}" class="img-responsive" alt="">
                               </div>
                               <div class="media-body blog-info">
-                                   <small><i class="fa fa-clock-o"></i> December 14, 2017</small>
-                                   <h3><a href="blog-detail.html">new creative fashion.</a></h3>
-                                   <p>Lorem ipsum dolor sit consectetur adipiscing morbi venenatis.</p>
-                                   <a href="blog-detail.html" class="btn section-btn">Read article</a>
+                                   <h3>Moonshot Recognition</h3>
+                                   <p>Highlight ambitious and groundbreaking ideas for further consideration.</p>
                               </div>
                          </div>
                     </div>
@@ -218,13 +204,11 @@ http://www.templatemo.com/tm-509-hydro
                          <!-- BLOG THUMB -->
                          <div class="media blog-thumb">
                               <div class="media-object media-left">
-                                   <a href="blog-detail.html"><img src="images/blog-image4.jpg" class="img-responsive" alt=""></a>
+                                   <img src="{{ url_for('static', filename='images/blog-image4.jpg') }}" class="img-responsive" alt="">
                               </div>
                               <div class="media-body blog-info">
-                                   <small><i class="fa fa-clock-o"></i> December 10, 2017</small>
-                                   <h3><a href="blog-detail.html">minimalist design trend in 2018.</a></h3>
-                                   <p>Lorem ipsum dolor sit consectetur adipiscing morbi venenatis.</p>
-                                   <a href="blog-detail.html" class="btn section-btn">View Detail</a>
+                                   <h3>Customizable Criteria</h3>
+                                   <p>Allow users to define metrics, descriptions, and importance levels for evaluations.</p>
                               </div>
                          </div>
                     </div>
@@ -235,36 +219,23 @@ http://www.templatemo.com/tm-509-hydro
 
 
      <!-- FOOTER -->
-     <footer data-stellar-background-ratio="0.5">
+     <footer id="contactus" data-stellar-background-ratio="0.5">
           <div class="container">
                <div class="row">
 
                     <div class="col-md-5 col-sm-12">
                          <div class="footer-thumb footer-info"> 
-                              <h2>Hydro Company</h2>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                              <h2>CheckAI team</h2>
+                              <p>CheckAI revolutionizes idea evaluation with a web-based platform, powered by generative AI, seamlessly scoring, filtering, and ranking problem-solution pairs based on user-defined metrics, while also identifying lazy pitches and groundbreaking moonshots.</p>
                          </div>
                     </div>
 
                     <div class="col-md-2 col-sm-4"> 
                          <div class="footer-thumb"> 
-                              <h2>Company</h2>
+                              <h2>Team</h2>
                               <ul class="footer-link">
-                                   <li><a href="#">About Us</a></li>
-                                   <li><a href="#">Join our team</a></li>
-                                   <li><a href="#">Read Blog</a></li>
-                                   <li><a href="#">Press</a></li>
-                              </ul>
-                         </div>
-                    </div>
-
-                    <div class="col-md-2 col-sm-4"> 
-                         <div class="footer-thumb"> 
-                              <h2>Services</h2>
-                              <ul class="footer-link">
-                                   <li><a href="#">Pricing</a></li>
-                                   <li><a href="#">Documentation</a></li>
-                                   <li><a href="#">Support</a></li>
+                                   <li><a href="https://www.linkedin.com/in/said-et-tousy/" target="_blank">Member 1: Said ET-TOUSY</a></li>
+                                   <li><a href="https://www.linkedin.com/in/said-et-tousy/" target="_blank">Member 2: Soufiane Ait El Aouad</a></li>
                               </ul>
                          </div>
                     </div>
@@ -272,28 +243,39 @@ http://www.templatemo.com/tm-509-hydro
                     <div class="col-md-3 col-sm-4"> 
                          <div class="footer-thumb"> 
                               <h2>Find us</h2>
-                              <p>123 Grand Rama IX, <br> Krung Thep Maha Nakhon 10400</p>
+                              <p>Mohammed VI Polytechnic University, <br> Lot 660, Hay Moulay Rachid Ben Guerir, 43150</p>
                          </div>
                     </div>                    
 
                     <div class="col-md-12 col-sm-12">
                          <div class="footer-bottom">
-                              <div class="col-md-6 col-sm-5">
-                                   <div class="copyright-text"> 
-                                        <p>Copyright &copy; 2017 Your Company</p>
-                                   </div>
-                              </div>
-                              <div class="col-md-6 col-sm-7">
-                                   <div class="phone-contact"> 
-                                        <p>Call us <span>(+66) 010-020-0340</span></p>
-                                   </div>
-                                   <ul class="social-icon">
-                                        <li><a href="https://www.facebook.com/templatemo" class="fa fa-facebook-square" attr="facebook icon"></a></li>
-                                        <li><a href="#" class="fa fa-twitter"></a></li>
-                                        <li><a href="#" class="fa fa-instagram"></a></li>
-                                   </ul>
-                              </div>
+                             <div class="col-md-6 col-sm-6">
+                                 <div class="copyright-text"> 
+                                     <p>Copyright &copy; CheckAI</p>
+                                 </div>
+                             </div>
+                             
+                             <div class="col-md-6 col-sm-6">
+                                 <div class="phone-contact" > 
+                                     <p >Call <strong>Said</strong> <span>(+212) 645677830</span></p>
+                                 </div>
+                                 <a href="https://www.linkedin.com/in/said-et-tousy/" target="_blank">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0072b1" class="bi bi-linkedin" viewBox="0 0 16 16">
+                                       <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+                                   </svg>
+                               </a>
+                                 <div class="phone-contact" style="margin-left: 50px;"> 
+                                   <p>Call <strong>Soufiane</strong> <span>(+212) 628941518</span></p>
+                               </div>
+                               <a href="https://www.linkedin.com/in/soufiane-ait-el-aouad/" target="_blank">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0072b1" class="bi bi-linkedin" viewBox="0 0 16 16">
+                                       <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+                                   </svg>
+                               </a>
+                             </div>
                          </div>
+                     </div>
+                     
                     </div>
                     
                </div>
@@ -301,62 +283,6 @@ http://www.templatemo.com/tm-509-hydro
      </footer>
 
 
-     <!-- MODAL -->
-     <section class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-               <div class="modal-content modal-popup">
-
-                    <div class="modal-header">
-                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                         </button>
-                    </div>
-
-                    <div class="modal-body">
-                         <div class="container-fluid">
-                              <div class="row">
-
-                                   <div class="col-md-12 col-sm-12">
-                                        <div class="modal-title">
-                                             <h2>Hydro Co</h2>
-                                        </div>
-
-                                        <!-- NAV TABS -->
-                                        <ul class="nav nav-tabs" role="tablist">
-                                             <li class="active"><a href="#sign_up" aria-controls="sign_up" role="tab" data-toggle="tab">Create an account</a></li>
-                                             <li><a href="#sign_in" aria-controls="sign_in" role="tab" data-toggle="tab">Sign In</a></li>
-                                        </ul>
-
-                                        <!-- TAB PANES -->
-                                        <div class="tab-content">
-                                             <div role="tabpanel" class="tab-pane fade in active" id="sign_up">
-                                                  <form action="#" method="post">
-                                                       <input type="text" class="form-control" name="name" placeholder="Name" required>
-                                                       <input type="telephone" class="form-control" name="telephone" placeholder="Telephone" required>
-                                                       <input type="email" class="form-control" name="email" placeholder="Email" required>
-                                                       <input type="password" class="form-control" name="password" placeholder="Password" required>
-                                                       <input type="submit" class="form-control" name="submit" value="Submit Button">
-                                                  </form>
-                                             </div>
-
-                                             <div role="tabpanel" class="tab-pane fade in" id="sign_in">
-                                                  <form action="#" method="post">
-                                                       <input type="email" class="form-control" name="email" placeholder="Email" required>
-                                                       <input type="password" class="form-control" name="password" placeholder="Password" required>
-                                                       <input type="submit" class="form-control" name="submit" value="Submit Button">
-                                                       <a href="https://www.facebook.com/templatemo">Forgot your password?</a>
-                                                  </form>
-                                             </div>
-                                        </div>
-                                   </div>
-
-                              </div>
-                         </div>
-                    </div>
-
-               </div>
-          </div>
-     </section>
 
 <!-- SCRIPTS -->
 <script src="{{ url_for('static', filename='jquery.js') }}"></script>
