@@ -1,66 +1,102 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    background: #ffffff;
+    font-family: 'Poppins', sans-serif;
 }
 
+h1,h2,h3,h4,h5,h6 {
+    font-weight: 300;
+    line-height: inherit;
+    letter-spacing: -1px;
+  }
+
+  h1 {
+    color: #292929;
+    font-size: 3em;
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    color: #393939;
+    font-size: 2em;
+  }
+
+  h3 {
+    color: #505050;
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: 0;
+  }
+
+  h4 {
+    color: #696969;
+    font-size: 18px;
+    line-height: normal;
+  }
+
+  p {
+    color: #757575;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 25px;
+  }
+
+  strong {
+    font-weight: 500;
+  }
+
+main {
+    padding: 20px;
+}
+
+/* header styling */
 header {
+    margin-bottom: 20px;
     background-color: #333;
     color: white;
-    padding: 10px;
+    padding: 10px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* or justify-content: space-around; */
     align-items: center;
+    text-align: center;
+    position: relative; /* Added position relative to enable absolute positioning for the button */
 }
 
-h1 {
-    margin: 0; /* Remove default margin for h1 */
-}
 
 .btn-like {
-    order: -1;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
     padding: 10px 20px;
     background-color: #007BFF;
     color: #fff;
     text-decoration: none;
-        cursor: pointer; /* Add a pointer cursor on hover */
-    font-size: 16px; /* Adjust font size */
     border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 1% auto;
 }
 
-button:hover {
-    background-color: #45a049; /* Darker green on hover */
+.btn-like:hover {
+    background-color: #0056b3;
 }
 
-
-
-.flags-card h4 {
-    color: #333;
-    margin-bottom: 5px;
+nav {
+    text-align: center; /* Center the navigation bar horizontally */
 }
-
-
-
-.flags-card p {
-    background-color: #3498db;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 3px;
-    margin-bottom: 5px;
-    display: inline-block;
-    margin-right: 5px;
-}
-
 
 nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    display: flex;
+    display: inline-block;
 }
 
 nav ul li {
-    margin-left: 15px; /* Adjust margin for spacing */
+    margin-left: 15px;
+    display: inline-block;
 }
 
 nav a {
@@ -68,45 +104,131 @@ nav a {
     color: white;
 }
 
-main {
-    padding: 20px;
-}
+
+
+
 
 .dashboard-section {
     margin-bottom: 30px;
 }
 
-.widget {
-    background-color: #f0f0f0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 15px;
-}
 
-.widget h3 {
-    margin-top: 0;
-    color: #333;
-}
 
-/* Existing CSS styles... */
 
-.dashboard-section {
-    margin-bottom: 30px;
-}
+
+
 
 .top-row, .bottom-row {
     display: flex;
     justify-content: space-between;
 }
 
+
+
 .widget {
-    background-color: #f0f0f0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 48%; /* Adjust the width as needed */
+    background: #ffffff;
+    -webkit-box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    margin: 1%;
+    padding: 30px;
+    border-radius: 3px;
+    width: 48%;
+    height: 48%;
     box-sizing: border-box;
+    position: relative;
+}
+
+#section1 .widget{
+    height: 200px;
+    
+}
+
+
+.widget h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.widget h4 {
+    margin-top: 2px;
+    margin-bottom: 0px;
+  }
+
+
+.truncate-container.expanded {
+    max-height: none;
+}
+
+
+.truncate-container {
+    max-height: 60px;
+    overflow: hidden;
+}
+
+.read-more {
+    float: right; /* Align the button to the right */
+    color: #000000;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: 1px solid #000000; /* Add a border for a clean look */
+    border-radius: 3px;
+    cursor: pointer;
+    transition: color 0.3s ease, border-color 0.3s ease; /* Add a smooth transition effect */
+}
+
+.read-more:hover {
+    color: #ffffff; /* Change text color on hover */
+    background-color: #000000; /* Add background color on hover */
+    border-color: #ffffff; /* Change border color on hover */
+}
+
+
+
+
+/* Existing CSS styles... */
+
+
+
+
+
+
+.metrics-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+
+
+/* new code again */
+#overview .dashboard-section {
+    display: flex;
+    justify-content: space-around; /* Adjust as needed */
+    align-items: center; /* Align items vertically at the center */
+}
+
+#overview .widget {
+    background: #ffffff;
+    -webkit-box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    margin: 1% auto;
+    display: flex; /* Use flexbox for columns */
+    justify-content: space-between; /* Create space between columns */
+    width: 80%; /* Adjust the width as needed */
+}
+
+.left-column {
+    width: 48%; /* Adjust the width of the left column */
+}
+
+.right-column {
+    width: 48%; /* Adjust the width of the right column */
+    display: flex;
+    align-items: center;
 }
 
 .widget h3 {
@@ -114,35 +236,30 @@ main {
     color: #333;
 }
 
-/* Existing CSS styles... */
-
-.dashboard-section {
-    margin-bottom: 30px;
+.brief-review {
+    margin-top: 20px; /* Adjust spacing between sections */
 }
 
-.overview-widget {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.brief-review p{
+    margin-top: 20px; /* Adjust spacing between sections */
+}
+
+.flags-card {
+    background-color: #000000;
+    color: #ffffff;
+    margin-top: 10px;
+    display: inline-block;
+    padding: 5px 5px;    
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Make the font bold */
+}
+
+
+.score {
     text-align: center;
-    margin: 0 auto; /* Center the widget */
-    width: 80%; /* Adjust the width as needed */
-    box-sizing: border-box;
 }
 
-.overview-widget h3 {
-    margin-top: 0;
-    color: #333;
-}
-
-.metrics-container {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.widget {
-    width: 48%; /* Adjust as needed to leave some space for margins and avoid wrapping issues */
-    margin: 1%; /* Adjust as needed for spacing between widgets */
-    box-sizing: border-box;
+.score strong {
+    font-size: 2em; /* Adjust the font size for the score */
 }

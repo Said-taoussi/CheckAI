@@ -35,7 +35,7 @@ def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
 @app.route('/')
 def home():
     cache.clear()
-    return render_template('home.html')
+    return render_template('index.html')
 
 def prepare_metrics(form_data):
     metrics = []
@@ -155,12 +155,16 @@ def table():
         with concurrent.futures.ThreadPoolExecutor() as executor:
             # Pass metrics, descriptions, and weights as arguments
             results = list(executor.map(process_row, df.itertuples(index=False), repeat(metrics), repeat(descriptions), repeat(weights)))
-
+        i = 0
         for result in results:
             score, flags, data = result
             scores.append(score)
             flagss.append(flags)
+            data["index"] = df.iloc[i, 0]
+            data["problem"] = df.iloc[i, 1]
+            data["solution"] = df.iloc[i, 2]
             datas.append(data)
+            i += 1
         df["flags"] = flagss
         df["score"] = scores
         df["data"] = datas

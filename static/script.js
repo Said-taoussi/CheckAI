@@ -117,3 +117,32 @@ function validateForm() {
     // Allow form submission if the file is selected
     return true;
 }
+
+
+// here is code for expanded text
+document.addEventListener("DOMContentLoaded", function() {
+    var truncateContainers = document.querySelectorAll('.truncate-container');
+    var readMoreLinks = document.querySelectorAll('.read-more');
+
+    readMoreLinks.forEach(function(link, index) {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            toggleReadMore(truncateContainers[index], link);
+        });
+    });
+});
+
+function toggleReadMore(truncateContainer, readMoreLink) {
+    var expandedClass = 'expanded';
+    var buttonText = readMoreLink.textContent.trim();
+
+    truncateContainer.classList.toggle(expandedClass);
+
+    // Toggle button text based on the current state
+    if (truncateContainer.classList.contains(expandedClass)) {
+        readMoreLink.textContent = 'Read less';
+    } else {
+        readMoreLink.textContent = 'Read more';
+    }
+}
+

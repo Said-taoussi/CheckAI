@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.min.css') }}">
+    
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
     <title>Evaluation breakdown</title>
 </head>
 <body>
@@ -22,20 +27,50 @@
 
     <main>
         <section id="overview" class="dashboard-section">
-            <div class="overview-widget">
-                <h3>Overview</h3>
-                <p >The score of this idea is: <strong style="font-size: 1.5em; color: #3498db;">{{ data.score_total }}</strong></p>
-                <p style="margin-top: 10px;">Here is a brief review:</p>
-                <p>{{ data.ovl_eval }}</p>
-                {% if data.flags %}
-                <div class="flags-card">
-                    <h4>Flags</h4>
-                    <p>{{ data.flags }}</p>
+            <div class="widget">
+                <div class="left-column">
+                    <h3>Overview of idea {{ data.index }}</h3>
+                    <div class="brief-review">
+                        <h4>Brief Review:</h4>
+                        <p>{{ data.ovl_eval }}</p>
+                    </div>
+                    {% if data.flags %}
+                        <div class="flags-card">
+                            <p>{{ data.flags }}</p>
+                        </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-               
+                <div class="right-column">
+                    <div class="score">
+                        <p>The Score:</p>
+                        <strong>{{ data.score_total }}</strong>
+                    </div>
+                </div>
             </div>
         </section>
+        
+        
+        <section id="idea_desc" class="dashboard-section">
+            <h2>Idea statement</h2>
+            <div class="metrics-container">
+                <div class="widget">
+                    <h3>Problem statement</h3>
+                    <div class="truncate-container">
+                        <p>{{ data.problem }}</p>
+                    </div>
+                    <a href="#" class="read-more">Read more</a>
+                </div>
+                <div class="widget">
+                    <h3>Solution</h3>
+                    <div class="truncate-container">
+                        <p>{{ data.solution }}</p>
+                    </div>
+                    <a href="#" class="read-more">Read more</a>
+                </div>
+            </div>
+        </section>
+
+        
         <section id="section1" class="dashboard-section">
             <h2>Metrics score</h2>
             <div class="metrics-container">
