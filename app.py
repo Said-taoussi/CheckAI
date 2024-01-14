@@ -41,9 +41,12 @@ def home():
     return render_template('home.html')
 
 @app.route('/ValidateOne')
+@cache.cached(timeout=3600)
 def validate_one():
     # Add logic for the ValidateOne page if needed
-    return render_template('validate_one.html')
+    data = cache.get("problem_solution")
+    print(data)
+    return render_template('validate_one.html', data=data)
 
 @app.route('/ValidateMultiple')
 def validate_multiple():
@@ -119,6 +122,8 @@ def submit():
     data["flags"] = flags
     data["problem"] = problem
     data["solution"] = solution
+
+    cache.set("problem_solution", data)
     return render_template('dashboard.html', data=data, source='submit')
 
 def calculate_score(data, weights):
@@ -216,7 +221,7 @@ def go_back(source):
     if source == 'table':
         return redirect(url_for('table'))
     elif source == 'submit':
-        return redirect(url_for('home'))
+        return redirect(url_for('validate_one'))
     # Handle other cases as needed
     else:
         return redirect(url_for('home'))
