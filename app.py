@@ -41,16 +41,12 @@ def home():
     return render_template('home.html')
 
 @app.route('/ValidateOne')
-@cache.cached(timeout=3600)
 def validate_one():
-    # Add logic for the ValidateOne page if needed
     data = cache.get("problem_solution")
-    print(data)
     return render_template('validate_one.html', data=data)
 
 @app.route('/ValidateMultiple')
 def validate_multiple():
-    # Add logic for the ValidateMultiple page if needed
     return render_template('validate_multiple.html')
 
 
@@ -115,7 +111,6 @@ def submit():
     metrics, descriptions, weights = prepare_metrics(form_data)
 
     data = check_idea(metrics, descriptions, problem, solution)
-    #print(data)
     score = calculate_score(data, weights)
     data["score_total"] = score
     flags = data.get("flags", [])[0] if data.get("flags", []) else "No flags"
@@ -123,7 +118,7 @@ def submit():
     data["problem"] = problem
     data["solution"] = solution
 
-    cache.set("problem_solution", data)
+    cache.set("problem_solution", {"problem":data["problem"],"solution":data["solution"]})
     return render_template('dashboard.html', data=data, source='submit')
 
 def calculate_score(data, weights):
@@ -165,8 +160,7 @@ def table():
         # Use TextIOWrapper to handle the decoding of the file content
         csv_file = TextIOWrapper(io.BytesIO(file_content), encoding='latin-1')
 
-        df = pd.read_csv(csv_file)
-      
+        df = pd.read_csv(csv_file)[:1]
         df = df.dropna()
       
         flagss = []
@@ -191,11 +185,11 @@ def table():
         df = df.sort_values(by='score', ascending=False)
 
         df_json = df.to_json(orient='split')
-        cache.set('df', df_json)
+        # cache.set('df', df_json)
         # You can now process the data as needed and pass it to the template
         return render_template('table.html', df=df)
     else:
-        df_json = cache.get('df')
+        # df_json = cache.get('df')
         if df_json is not None:
             df = pd.read_json(df_json, orient='split')
         else:
@@ -217,16 +211,14 @@ def get_details(identifier):
 
 @app.route('/go_back/<source>')
 def go_back(source):
-    print(source)
     if source == 'table':
         return redirect(url_for('table'))
     elif source == 'submit':
         return redirect(url_for('validate_one'))
-    # Handle other cases as needed
     else:
         return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True)
+    # app.run(debug=False, host="0.0.0.0")

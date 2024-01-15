@@ -51,7 +51,7 @@ $(document).ready(function(){
                 <tbody>
                     {% for index, row in df.iterrows() %}
                 <tr>
-                    <td class="limitedText" style="text-align:center;">{{row[0]}}</td>
+                    <td class="limitedText" style="text-align:center;">{{row[0]|int}}</td>
                     <td class="limitedText" style="text-align:center;">{{row[1]}}</td>
                     <td class="limitedText" style="text-align:center;">{{row[2]}}</td>
                     <td class="limitedText" style="text-align:center;">{{row[3]}}</td>

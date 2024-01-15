@@ -40,7 +40,7 @@
       </div>
     <div class="container">
         <h1 style="font-size:40px;">Hey, I am CheckAi &#128075;</h1>
-        <h1 style="margin-top: -2%;">and I will be assisting you in <span style="color: rgb(104, 164, 195);">validating and rating busines ideas</span></h1>
+        <h1 style="margin-top: -2%;">and I will be assisting you in <span style="color: rgb(104, 164, 195);">validating and rating business ideas</span></h1>
         
         <div class="idea-form">
         <form action="/submit" method="post" onsubmit="return validateForm1()">
@@ -55,7 +55,9 @@
                 <textarea name="solution" id="solutionTextarea" rows="4" cols="50" placeholder="Describe the solution here...">{{data.solution}}</textarea>
             </div>
         </div>
-        
+        <div class="additional-section">
+            <button type="button" onclick="fillTextAreas()">Quick test</button>
+        </div>
         <h2 class="metrics-title">Metrics</h2>
         <div class="card">
             <p>Feel free to incorporate various metrics along with their corresponding descriptions. You're allotted 20 points, allowing you to allocate them based on the significance each metric holds for you.</p>
