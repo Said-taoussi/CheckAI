@@ -159,7 +159,7 @@ function toggleReadMore(truncateContainer, readMoreLink) {
     }
 }
 
-async function submitForm() {
+function submitForm() {
     // Validate the form before submission
     if (!validateForm()) {
         return;
@@ -167,33 +167,7 @@ async function submitForm() {
 
     // Show the loader
     document.getElementById("loaderContainer").style.display = "flex";
-
-    try {
-        // Get form data
-        var formData = new FormData(document.getElementById("myForm"));
-
-        // Send a POST request to the Flask backend
-        const response = await fetch('/submit', {
-            method: 'POST',
-            body: formData
-        });
-
-        // Check if the request was successful
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        // Parse the JSON response
-        const data = await response.json();
-
-        // Add your logic for handling the backend response here
-        console.log(data);
-    } catch (error) {
-        console.error('Error:', error);
-    } finally {
-        // Hide the loader whether the backend operation is successful or not
-        document.getElementById("loaderContainer").style.display = "none";
-    }
+  
 }
 
 
@@ -227,27 +201,6 @@ function validateForm1() {
   
     // Show the loader
     document.getElementById("loaderContainer").style.display = "flex";
-  
-    // Prepare form data
-    var formData = new FormData(document.getElementById("myForm"));
-    // Send a POST request to the Flask backend
-    fetch('/submit', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Hide the loader after the operation is complete
-      document.getElementById("loaderContainer").style.display = "none";
-  
-      // Add your logic for handling the backend response here
-      console.log(data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      // Hide the loader in case of an error
-      document.getElementById("loaderContainer").style.display = "none";
-    });
   }
   
 function fillTextAreas() {
@@ -269,3 +222,42 @@ function clearTextAreas() {
     document.getElementById("problemTextarea").value = predefinedProblem;
     document.getElementById("solutionTextarea").value = predefinedSolution;
 }
+
+function sendMessage() {
+    var userMessage = document.getElementById('user-input').value;
+
+    if (userMessage.trim() === '') {
+        return;
+    }
+    
+    document.getElementById('chat-box').innerHTML += '<p><strong style="color: #3498db; font-weight: bold;">You:</strong> ' + userMessage + '</p>';
+    var requestData = new URLSearchParams();
+    requestData.append('user_message', userMessage);
+    requestData.append('additional_data', JSON.stringify(additionalData));
+    // Send user message to Flask server
+    fetch('/get_response', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', // Set content type to URL-encoded
+        },
+        body: requestData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        var chatBotResponse = data.response;
+        document.getElementById('chat-box').innerHTML += '<p><strong style="color: #3498db; font-weight: bold;">CheckAI:</strong> ' + chatBotResponse + '</p>';
+    });
+
+    document.getElementById('user-input').value = '';
+}
+
+// Listen for "Enter" key press
+document.getElementById('user-input').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        // Prevent the default behavior (form submission)
+        event.preventDefault();
+        
+        // Call the sendMessage function
+        sendMessage();
+    }
+});

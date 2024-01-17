@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import Flask, render_template, request, redirect, url_for, Response, jsonify
 from openai import OpenAI
 import ast
 import json
@@ -33,7 +33,7 @@ def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
     response = client.chat.completions.create(
         response_format={ "type": "json_object" },
         temperature=0,
-        seed = 69,
+        seed = 1234,
         model=model,
         messages=messages,
     )
@@ -77,8 +77,8 @@ def validate_one():
 
 @app.route('/ValidateMultiple')
 def validate_multiple():
-    cache.delete('table_cache')
-    data = cache.get("problem_solution") 
+    data = cache.get("problem_solution")
+    cache.clear()
     if data is None:
         data = {}
         my_dictionary = {'metric': metrics_examples, 'weight': weights_examples, 'description': descriptions_examples}
@@ -125,7 +125,7 @@ Step 3 – Evaluate the idea based on the given metrics. Give a score between 0 
 Step 4 – Check if the idea is particularly exceptional and ambitious. These are ideas that offer substantial returns but also carry a greater risk of failure. Emphasizes the novelty aspect of the idea and points to its potential for breakthroughs. Flag each idea that could be included in this category as “Moonshot”. Be strict in your judgment, only the most exceptional and revolutionary ideas can be flagged as “Moonshot”. Don’t get fooled by selling language or the use of fancy words such as “revolutionary” and “cutting edge”, THIS IS THE WORST MISTAKE YOU COULD MAKE. Compare the original solution to the neutral solution that you have written.
 
 Please keep this instructions open while reviewing, and refer to it as needed.
-
+IMPORTANT : "Moonshots" ideas are very rare to occur
 Provide your answer in the form of a json. The following is a description of the different field of the json that you should provide (don’t deviate from the format or add any fields):
 Neutral_solution : the new version of the solution that you have rewritten to eliminate over-generic content that prioritizes form over substance and the use of exaggeration and selling language.
 flags: list of flags (Possible values: “Moonshot”, “Not interesting”), could be empty.
@@ -155,6 +155,7 @@ def process_data(data):
 @app.route('/submit', methods=['POST'])
 def submit():
     form_data = request.form.to_dict()
+    
     problem = form_data.get('problem', '')
     solution = form_data.get('solution', '')
     metrics, descriptions, weights = prepare_metrics(form_data)
@@ -170,6 +171,8 @@ def submit():
     last_descriptions = list(set(descriptions_examples) ^ set(descriptions))
     last_weights = list(set(weights_examples) ^ set(weights))
     cache.set("problem_solution", {"problem":data["problem"],"solution":data["solution"], "last_metrics":last_metrics, "last_descriptions":last_descriptions, "last_weights":last_weights})
+    
+    #data = {}
     return render_template('dashboard.html', data=data, source='submit')
 
 def calculate_score(data, weights):
@@ -195,9 +198,10 @@ def process_row(row, metrics, descriptions, weights):
     return score, flags, data
 
 @app.route('/table', methods=['GET', 'POST'])
-@cache.cached(timeout=3600,key_prefix='table_cache')  # Cache the result for 10 minutes
+#@cache.cached(timeout=3600,key_prefix='table_cache')  # Cache the result for 10 minutes
 def table():
     if request.method == 'POST':
+        print("post ttttttttttttttttt")
         form_data = request.form.to_dict()
         metrics, descriptions, weights = prepare_metrics(form_data)
 
@@ -222,8 +226,9 @@ def table():
             else:
                 return 'Unsupported file format'
 
-        df = df.dropna()[:2]
-        
+        df = df.dropna()
+        # df = pd.DataFrame()
+      
         flagss = []
         scores = []
         datas = []
@@ -253,6 +258,7 @@ def table():
         # You can now process the data as needed and pass it to the template
         return render_template('table.html', df=df, summary = summary, img=img)
     else:
+        print("getttttttttttttttttt")
         df_json = cache.get('df')
         summary = cache.get('summary')
         img = cache.get('img')
@@ -359,6 +365,42 @@ def download_csv():
 
     return response
 
+
+def chat(messages):
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo-1106",
+        temperature=0.7,
+        messages=messages  # Pass the array of messages
+    )
+    chatbot_response = response.choices[0].message.content
+    return chatbot_response
+
+
+@app.route('/get_response', methods=['POST'])
+def get_response():
+    user_message = request.form.get('user_message')
+    additional_data = request.form.get('additional_data')
+    additional_data = json.loads(additional_data) if additional_data else {}
+    system_prompt2 = f"""You are an idea validator that advises human evaluators by developing 
+                    clear rationale judgement, you have evaluated an idea that has a problem and 
+                    solution. You used some metrics in the evaluation process and give score ranging from 0 to 20.
+                    you also explained why the score was given. You also flaed the idea as "moonshot", "Not interesting"
+                    or "no flags". Now the user wants to have a conversation with you as he may have some question about 
+                    the evaluation you made.
+                    be convincing and persuade the user.
+                    here is the evalution that you gived {additional_data}
+                """  
+    messages = cache.get("messages")
+    if messages is None:
+        messages = [{'role':'system', 'content':system_prompt2}]
+    
+    messages.append({'role': 'user', 'content': user_message}) 
+
+    chatbot_response = chat(messages)
+    messages.append({'role': 'assistant', 'content': chatbot_response})
+    cache.set("messages", messages)
+    return jsonify({'response': chatbot_response})
+
 if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run(debug=False, host="0.0.0.0")
+    #app.run(debug=True)
+    app.run(debug=False, host="0.0.0.0")

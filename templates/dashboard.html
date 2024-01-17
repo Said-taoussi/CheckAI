@@ -22,6 +22,7 @@
                 <li><a href="#overview">Overview</a></li>
                 <li><a href="#idea_desc">Idea statement</a></li>
                 <li><a href="#section1">Metrics score</a></li>
+                <li><a href="#chatbot-section">Chat</a></li>
             </ul>
         </nav>
     </header>
@@ -83,8 +84,19 @@
                 {% endfor %}
             </div>
         </section>
-        
+        <section id="chatbot-section" class="dashboard-section">
+            <h2>Chat</h2>
+            <div id="chat-container">
+                <div id="chat-box"></div>
+                <input type="text" name="user_message" id="user-input" placeholder="Type your message..." autocomplete="off">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </section>
     </main>
-
 </body>
+
+<script>
+    // Set a global variable to hold the additional data
+    var additionalData = {{ data | tojson | safe }};
+</script>
 </html>
