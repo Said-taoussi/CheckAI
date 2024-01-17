@@ -40,7 +40,7 @@
         <h1 style="font-size:40px;">Hey, I am CheckAi &#128075;</h1>
         <h1 style="margin-top: -2%;">and I will be assisting you in <span style="color: rgb(104, 164, 195);">validating and rating busines ideas</span></h1>
         <div class="multiple-ideas-form"  >
-            <form action="/table" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <form id="myForm" action="/table" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
             <h2 class="h2class" style="margin-bottom: 0;">Validate Multiple Ideas</h2>
             <p>Upload a CSV file:</p>
             <label class="custom-file-upload">
@@ -51,101 +51,31 @@
                 <p>Feel free to incorporate various metrics along with their corresponding descriptions. You're allotted 20 points, allowing you to allocate them based on the significance each metric holds for you.</p>
             </div>
             
-        <div class="row">
-            <div class="column" id="metricsContainer77">
-                <div class="metric-container">
-                    <div class="text-element">
-                        <h4>Metric</h4>
-                        <input name="metric1" type="text" placeholder="Enter metric..." value="Adherence to Circular Economy Principles">
+            <div class="row">
+                {% set max_length = (default['metric']|length if default and 'metric' in default else 6) %}
+                {% for i in range(1, max_length+1) %}
+                    <div class="column" id="metricsContainer{{ i }}">
+                        <div class="metric-container">
+                            <div class="text-element">
+                                <h4>Metric</h4>
+                                <input name="metric{{ i }}" type="text" placeholder="Enter metric..." value="{{ default['metric'][i-1] }}">
+                            </div>
+                            <div class="text-element">
+                                <h4>Weight</h4>
+                                <input name="weight{{ i }}" type="number" placeholder="Enter weight..." value="{{ default['weight'][i-1] }}" min="0" max="20">
+                            </div>
+                            <div class="text-element">
+                                <h4>Description</h4>
+                                <textarea name="description{{ i }}" placeholder="Enter description...">{{ default['description'][i-1]}}</textarea>
+                            </div>
+                        </div>
+                        <div class="add-metric-container">
+                            <span class="add-metric" onclick="addMetric('metricsContainer{{ i }}')">+</span>
+                        </div>
                     </div>
-                    <div class="text-element">
-                        <h4>Weight</h4>
-                        <input name="weight1" type="number" placeholder="Enter weight..." value="4" min="1" max="20">
-                    </div>
-                    <div class="text-element">
-                        <h4>Description</h4>
-                        <textarea name="description1" placeholder="Enter description...">The extent to which the idea aligns with circular economy principles, promoting sustainability and resource efficiency.</textarea>
-                    </div>
-                </div>
-                    <span class="add-metric" onclick="addMetric('metricsContaine77')">+</span>
+                {% endfor %}
             </div>
-            <div class="column" id="metricsContainer8">
-                <div class="metric-container">
-                    <div class="text-element">
-                        <h4>Metric</h4>
-                        <input name="metric2" type="text" placeholder="Enter metric..." value="Maturity Stage">
-                    </div>
-                    <div class="text-element">
-                        <h4>Weight</h4>
-                        <input name="weight2" type="number" placeholder="Enter weight..." value="4" min="0" max="20">
-                    </div>
-                    <div class="text-element">
-                        <h4>Description</h4>
-                        <textarea name="description2" placeholder="Enter description...">The current development stage of the idea, indicating how well-established and refined the concept or product is.</textarea>
-                    </div>
-                </div>
-                <div class="add-metric-container">
-                    <span class="add-metric" onclick="addMetric('metricsContainer8')">+</span>
-                </div>
-            </div>
-            <div class="column" id="metricsContainer9">
-                <div class="metric-container">
-                    <div class="text-element">
-                        <h4>Metric</h4>
-                        <input name="metric3" type="text" placeholder="Enter metric..." value="Market Potential">
-                    </div>
-                    <div class="text-element">
-                        <h4>Weight</h4>
-                        <input name="weight3" type="number" placeholder="Enter weight..." value="4" min="0" max="20">
-                    </div>
-                    <div class="text-element">
-                        <h4>Description</h4>
-                        <textarea name="description3" placeholder="Enter description...">An assessment of the idea's potential for success and acceptance in the market, considering demand, competition, and growth opportunities.</textarea>
-                    </div>
-                </div>
-                <div class="add-metric-container">
-                    <span class="add-metric" onclick="addMetric('metricsContainer9')">+</span>
-                </div>
-            </div>
-            <div class="column" id="metricsContainer10">
-                <div class="metric-container">
-                    <div class="text-element">
-                        <h4>Metric</h4>
-                        <input name="metric4" type="text" placeholder="Enter metric..." value="Feasibility">
-                    </div>
-                    <div class="text-element">
-                        <h4>Weight</h4>
-                        <input name="weight4" type="number" placeholder="Enter weight..." value="4" min="0" max="20">
-                    </div>
-                    <div class="text-element">
-                        <h4>Description</h4>
-                        <textarea name="description4" placeholder="Enter description..."> The practicality and viability of implementing the idea, considering factors such as technical, financial, and logistical aspects.</textarea>
-                    </div>
-                </div>
-                <div class="add-metric-container">
-                    <span class="add-metric" onclick="addMetric('metricsContainer10')">+</span>
-                </div>
-            </div>
-            <div class="column" id="metricsContainer11">
-                <div class="metric-container">
-                    <div class="text-element">
-                        <h4>Metric</h4>
-                        <input name="metric5" type="text" placeholder="Enter metric..." value="Scalability">
-                    </div>
-                    <div class="text-element">
-                        <h4>Weight</h4>
-                        <input name="weight5" type="number" placeholder="Enter weight..." value="4" min="0" max="20">
-                    </div>
-                    <div class="text-element">
-                        <h4>Description</h4>
-                        <textarea name="description5" placeholder="Enter description...">The ability of the idea to grow and adapt to changing demands or conditions without compromising its effectiveness or efficiency.</textarea>
-                    </div>
-                </div>
-                <div class="add-metric-container">
-                    <span class="add-metric" onclick="addMetric('metricsContainer11')">+</span>
-                </div>
-            </div>
-        </div>
+            
         <button class="btn section-btn smoothScroll" type="submit" class="submit-button" onclick="submitForm()">Check Ideas</button>
         <a href="/" class="btn section-btn smoothScroll">Go Back</a>
         </form>

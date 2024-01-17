@@ -73,8 +73,9 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .column {
-    margin-top: 10px;
-    margin-bottom: 10px; /* Add margin between columns */
+  flex-basis: calc(20% - 20px); /* Adjust the width of columns and consider padding */
+  margin-top: 10px;
+  margin-bottom: 10px; /* Add margin between columns */
 }
 
 .metrics-title {
@@ -100,6 +101,8 @@ button {
 }
 
 .metric-container {
+  padding-right: 10px; /* Adjust this value to reduce spacing */
+  padding-left: 10px;
     justify-content: space-between;
     align-items: center;
     background-color: #f0f8ff;

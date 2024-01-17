@@ -41,6 +41,7 @@ function addMetric(containerId, title) {
     // Increment the counter for the next metric
     metricCounter++;
 }
+
 var initialContent = document.querySelector('.initial-content');
 var oneIdeaForm = document.querySelector('.idea-form');
 var multipleIdeasForm = document.querySelector('.multiple-ideas-form');
@@ -114,19 +115,21 @@ function validateForm() {
         return false;
     }
 
-    // Check the file type (for example, allow only CSV files)
-    var allowedTypes = ['csv'];
+    // Check the file type
     var fileName = fileInput.files[0].name;
     var fileType = fileName.split('.').pop().toLowerCase();
     
+    // Check if the file type is either CSV or Excel
+    var allowedTypes = ['csv', 'xlsx', 'xls'];
     if (!allowedTypes.includes(fileType)) {
-        alert('Please upload a valid CSV file.');
+        alert('Please upload a valid CSV or Excel file.');
         return false;
     }
 
     // Allow form submission if the file is selected and the type is valid
     return true;
 }
+
 
 
 // here is code for expanded text
@@ -156,7 +159,7 @@ function toggleReadMore(truncateContainer, readMoreLink) {
     }
 }
 
-function submitForm() {
+async function submitForm() {
     // Validate the form before submission
     if (!validateForm()) {
         return;
@@ -165,28 +168,34 @@ function submitForm() {
     // Show the loader
     document.getElementById("loaderContainer").style.display = "flex";
 
-    // Get form data
-    var formData = new FormData(document.getElementById("myForm"));
+    try {
+        // Get form data
+        var formData = new FormData(document.getElementById("myForm"));
 
-    // Send a POST request to the Flask backend
-    fetch('/submit', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Hide the loader after the operation is complete
-        document.getElementById("loaderContainer").style.display = "none";
+        // Send a POST request to the Flask backend
+        const response = await fetch('/submit', {
+            method: 'POST',
+            body: formData
+        });
+
+        // Check if the request was successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // Parse the JSON response
+        const data = await response.json();
 
         // Add your logic for handling the backend response here
         console.log(data);
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Error:', error);
-        // Hide the loader in case of an error
+    } finally {
+        // Hide the loader whether the backend operation is successful or not
         document.getElementById("loaderContainer").style.display = "none";
-    });
+    }
 }
+
 
 
 function validateForm1() {
@@ -221,7 +230,6 @@ function validateForm1() {
   
     // Prepare form data
     var formData = new FormData(document.getElementById("myForm"));
-  
     // Send a POST request to the Flask backend
     fetch('/submit', {
       method: 'POST',
@@ -242,10 +250,20 @@ function validateForm1() {
     });
   }
   
-  function fillTextAreas() {
+function fillTextAreas() {
     // Predefined text values
     var predefinedProblem = "The construction industry is indubitably one of the significant contributors to global waste, contributing approximately 1.3 billion tons of waste annually, exerting significant pressure on our landfills and natural resources. Traditional construction methods entail single-use designs that require frequent demolitions, leading to resource depletion and wastage.";
     var predefinedSolution = "Herein, we propose an innovative approach to mitigate this problem: Modular Construction. This method embraces recycling and reuse, taking a significant stride towards a circular economy.   Modular construction involves utilizing engineered components in a manufacturing facility that are later assembled on-site. These components are designed for easy disassembling, enabling them to be reused in diverse projects, thus significantly reducing waste and conserving resources.  Not only does this method decrease construction waste by up to 90%, but it also decreases construction time by 30-50%, optimizing both environmental and financial efficiency. This reduction in time corresponds to substantial financial savings for businesses. Moreover, the modular approach allows greater flexibility, adapting to changing needs over time.  We believe, by adopting modular construction, the industry can transit from a 'take, make and dispose' model to a more sustainable 'reduce, reuse, and recycle' model, driving the industry towards a more circular and sustainable future. The feasibility of this concept is already being proven in markets around the globe, indicating its potential for scalability and real-world application.";
+
+    // Set the values to the text areas
+    document.getElementById("problemTextarea").value = predefinedProblem;
+    document.getElementById("solutionTextarea").value = predefinedSolution;
+}
+
+function clearTextAreas() {
+    // Predefined text values
+    var predefinedProblem = "";
+    var predefinedSolution = "";
 
     // Set the values to the text areas
     document.getElementById("problemTextarea").value = predefinedProblem;

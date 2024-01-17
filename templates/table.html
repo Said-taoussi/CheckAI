@@ -21,13 +21,19 @@ $(document).ready(function(){
 </head>
 <body>
     <header>
-        <a href="{{ url_for('go_back', source='home') }}" class="btn-like">Go Back</a>
+        <a href="{{ url_for('go_back', source='validate') }}" class="btn-like">Go Back</a>
         <h1>Evaluation breakdown</h1>
     </header>
 
     
 
 <div class="container-xl">
+    <div style="text-align: center;">
+        <a href="{{ url_for('download_csv') }}" class="btn btn-primary">Download CSV</a>
+    </div>
+
+    
+
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">

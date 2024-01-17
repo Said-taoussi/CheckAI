@@ -4,3 +4,4 @@ numpy
 pandas
 Flask-Caching
 python-dotenv
+openpyxl
