@@ -13,6 +13,10 @@ from itertools import repeat
 import concurrent.futures
 import os
 from dotenv import load_dotenv
+import matplotlib
+matplotlib.use('Agg') 
+import matplotlib.pyplot as plt
+import base64
 
 
 load_dotenv()
@@ -218,9 +222,8 @@ def table():
             else:
                 return 'Unsupported file format'
 
-        df = df.dropna()
-        # df = pd.DataFrame()
-      
+        df = df.dropna()[:2]
+        
         flagss = []
         scores = []
         datas = []
@@ -242,18 +245,53 @@ def table():
         df["data"] = datas
         df = df.sort_values(by='score', ascending=False)
         df_json = df.to_json(orient='split')
+
+        summary, img = generate_summary_img(df)
         cache.set('df', df_json)
+        cache.set('summary', summary)
+        cache.set('img',img)
         # You can now process the data as needed and pass it to the template
-        return render_template('table.html', df=df)
+        return render_template('table.html', df=df, summary = summary, img=img)
     else:
         df_json = cache.get('df')
+        summary = cache.get('summary')
+        img = cache.get('img')
         if df_json is not None:
             df = pd.read_json(df_json, orient='split')
         else:
             df = pd.DataFrame()  # Handle the case where the cache is empty
 
-        return render_template('table.html', df=df)
-        
+        return render_template('table.html', df=df, summary = summary, img=img)
+
+def generate_summary_img(df):
+    summary = {}
+    count = df["flags"].value_counts()
+    if "Not interesting" in count.index:
+        summary["Not interesting"] = count["Not interesting"]
+    else:
+        summary["Not interesting"] = 0
+
+    if "Moonshot" in count.index:
+        summary["Moonshot"] = count["Moonshot"]
+    else:
+        summary["Moonshot"] = 0
+    
+    plt.hist(df["score"], bins=len(df)//2 + 1, edgecolor='black', alpha=0.7)
+    plt.title('Score distribution', fontsize=25)
+    plt.tick_params(axis='both', which='major', labelsize=16)
+
+    # Save the plot image in memory
+    img_buffer = BytesIO()
+    plt.savefig(img_buffer, format='png')
+    plt.close()
+
+    # Convert the plot image to base64
+    img_str = base64.b64encode(img_buffer.getvalue()).decode('utf-8')
+
+   
+    return summary, img_str
+
+
 @app.route('/get_details/<identifier>')
 def get_details(identifier):
     # Perform any necessary logic based on the identifier
@@ -322,5 +360,5 @@ def download_csv():
     return response
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True)
+    # app.run(debug=False, host="0.0.0.0")
