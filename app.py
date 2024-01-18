@@ -25,7 +25,7 @@ key = os.environ.get("API_KEY")
 client = OpenAI(api_key = key)
 
 app = Flask(__name__)
-cache = Cache(config={'CACHE_TYPE': 'simple', "CACHE_DEFAULT_TIMEOUT": 600})
+cache = Cache(config={'CACHE_TYPE': 'simple', "CACHE_DEFAULT_TIMEOUT": 3600})
 cache.init_app(app)
 
 def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
@@ -200,8 +200,8 @@ def process_row(row, metrics, descriptions, weights):
 @app.route('/table', methods=['GET', 'POST'])
 #@cache.cached(timeout=3600,key_prefix='table_cache')  # Cache the result for 10 minutes
 def table():
+    cache.delete("messages")
     if request.method == 'POST':
-        print("post ttttttttttttttttt")
         form_data = request.form.to_dict()
         metrics, descriptions, weights = prepare_metrics(form_data)
 
@@ -226,7 +226,7 @@ def table():
             else:
                 return 'Unsupported file format'
 
-        df = df.dropna()
+        df = df.dropna()[:2]
         # df = pd.DataFrame()
       
         flagss = []
@@ -258,7 +258,6 @@ def table():
         # You can now process the data as needed and pass it to the template
         return render_template('table.html', df=df, summary = summary, img=img)
     else:
-        print("getttttttttttttttttt")
         df_json = cache.get('df')
         summary = cache.get('summary')
         img = cache.get('img')
@@ -396,7 +395,7 @@ Neutral version of the solution: “{additional_data["Neutral_solution"]}”
 Evaluation breakdown: “{additional_data["eval_breakdown"]}”
 
 Your task now is to chat with the user and answer their question about you evaluation. Be convincing and persuasive."""  
-    print(system_prompt2)
+    
     messages = cache.get("messages")
     if messages is None:
         messages = [{'role':'system', 'content':system_prompt2}]
