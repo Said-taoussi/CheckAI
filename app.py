@@ -226,7 +226,7 @@ def table():
             else:
                 return 'Unsupported file format'
 
-        df = df.dropna()[:2]
+        df = df.dropna()
         # df = pd.DataFrame()
       
         flagss = []
