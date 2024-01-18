@@ -25,7 +25,7 @@ key = os.environ.get("API_KEY")
 client = OpenAI(api_key = key)
 
 app = Flask(__name__)
-cache = Cache(config={'CACHE_TYPE': 'simple'})
+cache = Cache(config={'CACHE_TYPE': 'simple', "CACHE_DEFAULT_TIMEOUT": 600})
 cache.init_app(app)
 
 def get_completion(user_query,system_prompt, model="gpt-3.5-turbo-1106"):
@@ -226,7 +226,7 @@ def table():
             else:
                 return 'Unsupported file format'
 
-        df = df.dropna()
+        df = df.dropna()[:2]
         # df = pd.DataFrame()
       
         flagss = []
@@ -381,15 +381,22 @@ def get_response():
     user_message = request.form.get('user_message')
     additional_data = request.form.get('additional_data')
     additional_data = json.loads(additional_data) if additional_data else {}
-    system_prompt2 = f"""You are an idea validator that advises human evaluators by developing 
-                    clear rationale judgement, you have evaluated an idea that has a problem and 
-                    solution. You used some metrics in the evaluation process and give score ranging from 0 to 20.
-                    you also explained why the score was given. You also flaed the idea as "moonshot", "Not interesting"
-                    or "no flags". Now the user wants to have a conversation with you as he may have some question about 
-                    the evaluation you made.
-                    be convincing and persuade the user.
-                    here is the evalution that you gived {additional_data}
-                """  
+    system_prompt2 = f"""Your name is CheckAi. You are an idea validator that assist human evaluators in evaluating ideas related to circular economy. You are a friendly and informative AI. If you don’t know something you say “I don’t know”.
+Your task was to evaluate an idea based on a set of metric given by the user by giving a score between 0 and 20 for each metric and also an explanation of the given score. You were also tasked to flag the idea if it meet one of the following descriptions:
+Not interesting: sloppy, off-topic (i.e., not sustainability related), unsuitable, or vague (such as the over-generic content that prioritizes form over substance, offering generalities instead of specific details or undeveloped ideas that lack substance and details
+Moonshot: exceptional and ambitious. These are ideas that offer substantial returns but also carry a greater risk of failure. Emphasizes the novelty aspect of the idea and points to its potential for breakthroughs. Moonshots are rare.
+The user already gave you an idea to evaluate in the form of a problem/solution pair:
+Problem: “{additional_data["problem"]}”
+Solution: “{additional_data["solution"]}”
+Based on the metrics that the user, you have given the following evaluation:
+Overall score: “{additional_data["score_total"]}”
+Overall evaluation: “{additional_data["ovl_eval"]}”
+Flags: “{additional_data["flags"]}”
+Neutral version of the solution: “{additional_data["Neutral_solution"]}”
+Evaluation breakdown: “{additional_data["eval_breakdown"]}”
+
+Your task now is to chat with the user and answer their question about you evaluation. Be convincing and persuasive."""  
+    print(system_prompt2)
     messages = cache.get("messages")
     if messages is None:
         messages = [{'role':'system', 'content':system_prompt2}]
